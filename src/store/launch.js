@@ -18,7 +18,18 @@ export default {
     async loadLaunches ({commit}) {
       commit('setLoading', true)
       try {
-        const response = await axios.get('https://launchlibrary.net/1.4/launch/next/9')
+        const response = await axios.get('https://launchlibrary.net/1.4/launch/next/10')
+        commit('setLaunches', response.data)
+        commit('setLoading', false)
+      } catch (error) {
+        commit('setLoading', false)
+        console.log(error)
+      }
+    },
+    async loadMoreLaunches ({commit, state}) {
+      commit('setLoading', true)
+      try {
+        const response = await axios.get(`https://launchlibrary.net/1.4/launch/next/${state.launches.count + 10}`)
         commit('setLaunches', response.data)
         commit('setLoading', false)
       } catch (error) {

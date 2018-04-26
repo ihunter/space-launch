@@ -11,6 +11,7 @@
           value="true"
           v-for="(item, i) in items"
           :key="i"
+          :to="item.link"
         >
           <v-list-tile-action>
             <v-icon v-html="item.icon"></v-icon>
@@ -45,7 +46,8 @@ export default {
       drawer: false,
       items: [{
         icon: 'home',
-        title: 'Home'
+        title: 'Home',
+        link: '/'
       }],
       title: 'Space Launch Calendar'
     }
