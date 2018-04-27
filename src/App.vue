@@ -32,7 +32,7 @@
       <router-view/>
     </v-content>
     
-    <v-footer app>
+    <v-footer>
       <v-spacer></v-spacer>
       <span>&copy; 2018</span>
     </v-footer>
