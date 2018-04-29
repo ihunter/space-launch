@@ -1,7 +1,7 @@
 <template>
-  <div>
-    COUNTDOWN: {{ count }}
-  </div>
+  <span>
+    {{ countdown }}
+  </span>
 </template>
 
 <script>
@@ -19,7 +19,7 @@ export default {
     diff () {
       return (this.netstamp) - this.now
     },
-    count () {
+    countdown () {
       if (this.netstamp) {
         return moment.duration(this.diff, 's').format('D:hh:mm:ss', {trim: false})
       } else {

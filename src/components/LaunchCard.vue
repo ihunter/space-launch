@@ -3,26 +3,21 @@
     <v-toolbar dark color="primary">
       <v-toolbar-title>{{ launch.name | title }}</v-toolbar-title>
     </v-toolbar>
-    <v-container fluid>
-      <v-layout align-center>
-        <v-flex xs3>
-          <v-card-media :src="launch.rocket.imageURL" height="200" />
-        </v-flex>
-        <v-flex xs7>
-          <v-card-title primary-title>
-            <div>
-              <div>{{ launch.location.name }}</div>
-              <countdown :netstamp="launch.netstamp" />
-            </div>
-          </v-card-title>
-          <v-card-text>
-            <div v-if="launch.missions.length">
-              {{ launch.missions[0].description }}
-            </div>
-          </v-card-text>
-        </v-flex>
-      </v-layout>
-    </v-container>
+
+    <v-parallax :src="launch.rocket.imageURL" :alt="launch.rocket.name" height="300">
+    </v-parallax>
+
+    <v-card-title primary-title>
+      <div>
+        <div>{{ launch.location.name }}</div>
+          Countdown: <countdown :netstamp="launch.netstamp" />
+      </div>
+    </v-card-title>
+    <v-card-text>
+      <div v-if="launch.missions.length">
+        {{ launch.missions[0].description }}
+      </div>
+    </v-card-text>
 
     <v-card-actions>
       <v-spacer></v-spacer>
@@ -48,6 +43,5 @@ export default {
 }
 </script>
 
-<style>
-
+<style scoped>
 </style>

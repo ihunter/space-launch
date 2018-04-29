@@ -1,17 +1,7 @@
 <template>
   <div>
     <v-container fluid grid-list-lg>
-
-      <v-layout v-if="loading" justify-center>
-        <v-progress-circular
-          indeterminate
-          color="primary"
-          :size="100"
-        >
-        </v-progress-circular>
-      </v-layout>
-
-      <v-layout v-else row wrap v-scroll="onScroll">
+      <v-layout row wrap v-scroll="onScroll">
         <v-flex xs12 sm6 offset-sm3 v-for="launch in launches" :key="launch.id">
           <LaunchCard :launch="launch" />
         </v-flex>
@@ -61,14 +51,14 @@ export default {
   },
   methods: {
     loadMore () {
-      this.$store.dispatch('loadMoreLaunches')
+      this.$store.dispatch('addLaunches')
     },
     onScroll (e) {
       this.offsetTop = window.pageYOffset || document.documentElement.scrollTop
     }
   },
   computed: {
-    ...mapGetters(['launches', 'loading', 'loadingMore'])
+    ...mapGetters(['launches', 'loadingMore'])
   },
   components: {
     LaunchCard

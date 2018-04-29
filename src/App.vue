@@ -26,10 +26,47 @@
     <v-toolbar app color="primary" dark>
       <v-toolbar-side-icon @click.stop="drawer = !drawer"></v-toolbar-side-icon>
       <v-toolbar-title v-text="title"></v-toolbar-title>
+      <v-spacer></v-spacer>
+      <v-btn icon @click.stop="right = !right">
+        <v-icon>filter_list</v-icon>
+      </v-btn>
     </v-toolbar>
 
+    <v-navigation-drawer
+      v-model="right"
+      right
+      temporary
+      enable-resize-watcher
+      app
+    >
+      <v-list>
+        <v-list-tile>
+          <v-switch
+            label="SpaceX"
+            v-model="filters"
+            value="SpX"
+          ></v-switch>
+
+          <v-switch
+            label="NASA"
+            v-model="filters"
+            value="NASA"
+          ></v-switch>
+        </v-list-tile>
+      </v-list>
+    </v-navigation-drawer>
+
     <v-content>
-      <router-view/>
+      <v-layout v-if="loading" justify-center align-center fill-height>
+        <v-progress-circular
+          indeterminate
+          color="primary"
+          :size="100"
+        >
+        </v-progress-circular>
+      </v-layout>
+
+      <router-view v-else/>
     </v-content>
     
     <v-footer>
@@ -40,16 +77,31 @@
 </template>
 
 <script>
+import {mapGetters} from 'vuex'
+
 export default {
   data () {
     return {
       drawer: false,
+      right: false,
       items: [{
         icon: 'home',
         title: 'Home',
         link: '/'
       }],
       title: 'Space Launch Calendar'
+    }
+  },
+  computed: {
+    ...mapGetters(['loading']),
+    filters: {
+      get: function () {
+        return this.$store.getters.filters
+      },
+      set: function (value) {
+        console.log(value)
+        this.$store.dispatch('setFilters', value)
+      }
     }
   },
   name: 'App'
