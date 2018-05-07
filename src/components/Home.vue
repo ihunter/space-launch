@@ -7,7 +7,7 @@
         </v-flex>
 
         <v-flex xs12 sm6 offset-sm3 class="text-xs-center"> 
-          <v-btn @click="loadMore()" :loading="loadingMore" :disabled="loadingMore">
+          <v-btn @click="addLaunches()" :loading="loadingMore" :disabled="loadingMore">
             Load More
           </v-btn>
         </v-flex>
@@ -40,7 +40,7 @@
 </style>
 
 <script>
-import {mapGetters} from 'vuex'
+import {mapGetters, mapActions} from 'vuex'
 import LaunchCard from './LaunchCard'
 
 export default {
@@ -50,9 +50,7 @@ export default {
     }
   },
   methods: {
-    loadMore () {
-      this.$store.dispatch('addLaunches')
-    },
+    ...mapActions(['addLaunches']),
     onScroll (e) {
       this.offsetTop = window.pageYOffset || document.documentElement.scrollTop
     }

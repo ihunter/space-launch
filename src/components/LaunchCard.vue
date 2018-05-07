@@ -4,8 +4,15 @@
       <v-toolbar-title>{{ launch.name | title }}</v-toolbar-title>
     </v-toolbar>
 
-    <v-parallax :src="launch.rocket.imageURL" :alt="launch.rocket.name" height="300">
-    </v-parallax>
+    <!-- <v-parallax :src="launch.rocket.imageURL" :alt="launch.rocket.name" height="300">
+    </v-parallax> -->
+
+    <v-card-media
+      :src="launch.rocket.imageURL"
+      :alt="launch.rocket.name" 
+      height="300"
+    >
+    </v-card-media>
 
     <v-card-title primary-title>
       <div>

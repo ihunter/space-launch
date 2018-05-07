@@ -40,17 +40,11 @@
       app
     >
       <v-list>
-        <v-list-tile>
+        <v-list-tile v-for="agency in agencies" :key="agency.id">
           <v-switch
-            label="SpaceX"
-            v-model="filters"
-            value="SpX"
-          ></v-switch>
-
-          <v-switch
-            label="NASA"
-            v-model="filters"
-            value="NASA"
+            :label="agency.name"
+            v-model="lsp"
+            :value="agency.abbrev"
           ></v-switch>
         </v-list-tile>
       </v-list>
@@ -82,6 +76,7 @@ import {mapGetters} from 'vuex'
 export default {
   data () {
     return {
+      title: 'Space Launch Calendar',
       drawer: false,
       right: false,
       items: [{
@@ -89,19 +84,17 @@ export default {
         title: 'Home',
         link: '/'
       }],
-      title: 'Space Launch Calendar'
+      lsp: []
     }
   },
   computed: {
-    ...mapGetters(['loading']),
-    filters: {
-      get: function () {
-        return this.$store.getters.filters
-      },
-      set: function (value) {
-        console.log(value)
-        this.$store.dispatch('setFilters', value)
-      }
+    ...mapGetters(['loading', 'agencies'])
+  },
+  watch: {
+    lsp () {
+      this.$store.dispatch('setFilters', {
+        lsp: this.lsp
+      })
     }
   },
   name: 'App'

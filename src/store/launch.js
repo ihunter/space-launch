@@ -2,77 +2,72 @@ import axios from 'axios'
 
 export default {
   state: {
-    launches: [],
-    filters: [],
-    offset: 0
+    launches: {},
+    filters: {}
   },
   getters: {
     launches (state) {
-      if (state.filters !== undefined && state.filters.length !== 0) {
-        let filteredLaunches = []
-        for (let i = 0; i < state.filters.length; i++) {
-          let filteredArray = state.launches.filter(launch => {
-            return launch.lsp.abbrev === state.filters[i]
-          })
-          filteredLaunches = filteredLaunches.concat(filteredArray)
-        }
-        return filteredLaunches
-      }
-      return state.launches
-    },
-    filters (state) {
-      return state.filters
+      return state.launches.launches
     }
   },
   mutations: {
     setLaunches (state, payload) {
-      state.launches = payload.launches
-    },
-    addLaunches (state, payload) {
-      state.launches = state.launches.concat(payload.launches)
+      state.launches = payload
     },
     setFilters (state, payload) {
-      state.filters = payload
-    },
-    setOffset (state, payload) {
-      state.offset = payload
-    },
-    addOffset (state, payload) {
-      state.offset += payload
+      Object.assign(state.filters, payload)
     }
   },
   actions: {
-    async loadLaunches ({commit}) {
+    async getLaunches ({commit}, payload) {
       commit('setLoading', true)
       try {
-        const response = await axios.get('https://launchlibrary.net/1.4/launch/next/10')
-        commit('setLaunches', response.data)
-        commit('setLoading', false)
+        const launches = await axios.get(`https://launchlibrary.net/1.4/launch/next/10/`)
+        commit('setLaunches', launches.data)
       } catch (error) {
-        commit('setLoading', false)
         console.log(error)
+      } finally {
+        commit('setLoading', false)
       }
     },
-    async addLaunches ({commit, state}) {
+    async addLaunches ({state, commit}) {
       commit('setLoadingMore', true)
       try {
-        const response = await axios.get(`https://launchlibrary.net/1.4/launch/next/10?offset=${state.offset + 10}`)
-        commit('addOffset', 10)
-        commit('addLaunches', response.data)
-        commit('setLoadingMore', false)
+        const launches = await axios.get(`https://launchlibrary.net/1.4/launch/next/${state.launches.count + 10}/`)
+        commit('setLaunches', launches.data)
       } catch (error) {
-        commit('setLoadingMore', false)
         console.log(error)
+      } finally {
+        commit('setLoadingMore', false)
       }
     },
-    async setFilters ({commit}, payload) {
+    async setFilters ({state, commit, dispatch}, payload) {
       commit('setLoading', true)
+      if (payload.lsp === undefined || payload.lsp.length === 0) {
+        dispatch('getLaunches')
+        return
+      }
       try {
         commit('setFilters', payload)
-        commit('setLoading', false)
+        let requests = []
+        for (let filter in state.filters) {
+          for (let lsp in state.filters[filter]) {
+            requests.push(axios.get(`https://launchlibrary.net/1.4/launch/next/10?lsp=${state.filters[filter][lsp]}`))
+          }
+        }
+        const request = await Promise.all(requests)
+        let filteredLaunches = {launches: []}
+        for (let req in request) {
+          filteredLaunches.launches = filteredLaunches.launches.concat(request[req].data.launches)
+        }
+        filteredLaunches.launches = filteredLaunches.launches.sort((a, b) => {
+          return a.netstamp > b.netstamp
+        }).slice(0, 10)
+        commit('setLaunches', filteredLaunches)
       } catch (error) {
-        commit('setLoading', false)
         console.log(error)
+      } finally {
+        commit('setLoading', false)
       }
     }
   }

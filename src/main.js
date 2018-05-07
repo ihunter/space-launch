@@ -19,6 +19,7 @@ new Vue({
   components: { App },
   template: '<App/>',
   created () {
-    this.$store.dispatch('loadLaunches')
+    this.$store.dispatch('getLaunches')
+    this.$store.dispatch('loadAgencies')
   }
 })
