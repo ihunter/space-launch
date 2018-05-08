@@ -2,7 +2,7 @@
   <div>
     <v-container fluid grid-list-lg>
       <v-layout row wrap v-scroll="onScroll">
-        <v-flex xs12 sm6 offset-sm3 v-for="launch in launches" :key="launch.id">
+        <v-flex xs12 sm10 md6 lg4 offset-sm1 offset-md3 offset-lg4 v-for="launch in launches" :key="launch.id">
           <LaunchCard :launch="launch" />
         </v-flex>
 

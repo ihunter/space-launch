@@ -1,4 +1,5 @@
 import axios from 'axios'
+import moment from 'moment'
 
 export default {
   state: {
@@ -52,7 +53,7 @@ export default {
         let requests = []
         for (let filter in state.filters) {
           for (let lsp in state.filters[filter]) {
-            requests.push(axios.get(`https://launchlibrary.net/1.4/launch/next/10?lsp=${state.filters[filter][lsp]}`))
+            requests.push(axios.get(`https://launchlibrary.net/1.4/launch/next/${10}?lsp=${state.filters[filter][lsp]}`))
           }
         }
         const request = await Promise.all(requests)
@@ -61,7 +62,7 @@ export default {
           filteredLaunches.launches = filteredLaunches.launches.concat(request[req].data.launches)
         }
         filteredLaunches.launches = filteredLaunches.launches.sort((a, b) => {
-          return a.netstamp > b.netstamp
+          return moment(a.net).isAfter(b.net)
         }).slice(0, 10)
         commit('setLaunches', filteredLaunches)
       } catch (error) {
