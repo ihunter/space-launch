@@ -4,7 +4,8 @@ import moment from 'moment'
 export default {
   state: {
     launches: {},
-    filters: {}
+    filters: {},
+    count: 10
   },
   getters: {
     launches (state) {
@@ -17,6 +18,9 @@ export default {
     },
     setFilters (state, payload) {
       Object.assign(state.filters, payload)
+    },
+    setCount (state, payload) {
+      state.count += payload
     }
   },
   actions: {
@@ -31,10 +35,14 @@ export default {
         commit('setLoading', false)
       }
     },
-    async addLaunches ({state, commit}) {
+    async addLaunches ({state, commit, dispatch}) {
+      if (state.filters.lsp.length !== 0) {
+        dispatch('setFilters', state.filters)
+        return
+      }
       commit('setLoadingMore', true)
       try {
-        const launches = await axios.get(`https://launchlibrary.net/1.4/launch/next/${state.launches.count + 10}/`)
+        const launches = await axios.get(`https://launchlibrary.net/1.4/launch/next/${state.count + 10}/`)
         commit('setLaunches', launches.data)
       } catch (error) {
         console.log(error)
@@ -53,7 +61,7 @@ export default {
         let requests = []
         for (let filter in state.filters) {
           for (let lsp in state.filters[filter]) {
-            requests.push(axios.get(`https://launchlibrary.net/1.4/launch/next/${10}?lsp=${state.filters[filter][lsp]}`))
+            requests.push(axios.get(`https://launchlibrary.net/1.4/launch/next/${state.count + 10}?lsp=${state.filters[filter][lsp]}`))
           }
         }
         const request = await Promise.all(requests)
