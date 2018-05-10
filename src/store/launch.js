@@ -70,7 +70,9 @@ export default {
           filteredLaunches.launches = filteredLaunches.launches.concat(request[req].data.launches)
         }
         filteredLaunches.launches = filteredLaunches.launches.sort((a, b) => {
-          return moment(a.net).isAfter(b.net)
+          let dateA = moment(a.net, 'MMMM DD, YYYY HH:mm:ss Z')
+          let dateB = moment(b.net, 'MMMM DD, YYYY HH:mm:ss Z')
+          return dateA.diff(dateB)
         }).slice(0, 10)
         commit('setLaunches', filteredLaunches)
       } catch (error) {
