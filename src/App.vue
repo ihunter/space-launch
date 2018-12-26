@@ -1,18 +1,27 @@
 <template>
   <v-app>
-    <v-toolbar app>
-      <v-toolbar-title class="headline text-uppercase">
-        <span>Vuetify</span>
-        <span class="font-weight-light">MATERIAL DESIGN</span>
+    <v-navigation-drawer app temporary v-model="drawer">
+      <v-img src="https://cdn.vuetifyjs.com/images/cards/desert.jpg"></v-img>
+      <v-list>
+        <v-list-tile to="/">
+          <v-list-tile-action>
+            <v-icon>home</v-icon>
+          </v-list-tile-action>
+
+          <v-list-tile-content>
+            <v-list-tile-title>Home</v-list-tile-title>
+          </v-list-tile-content>
+        </v-list-tile>
+      </v-list>
+    </v-navigation-drawer>
+    <v-toolbar app flat>
+      <v-toolbar-side-icon @click="drawer = !drawer" />
+      <v-toolbar-title>
+        Space Launch Calendar
       </v-toolbar-title>
       <v-spacer></v-spacer>
-      <v-btn
-        flat
-        href="https://github.com/vuetifyjs/vuetify/releases/latest"
-        target="_blank"
-      >
-        <span class="mr-2">Latest Release</span>
-        <v-icon>open_in_new</v-icon>
+      <v-btn icon>
+        <v-icon>filter_list</v-icon>
       </v-btn>
     </v-toolbar>
 
@@ -23,12 +32,11 @@
 </template>
 
 <script>
-
 export default {
   name: 'App',
   data () {
     return {
-      //
+      drawer: false
     }
   }
 }
