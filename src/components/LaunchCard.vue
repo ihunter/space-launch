@@ -8,7 +8,7 @@
       </div>
     </v-toolbar>
 
-    <v-img v-if="intersected" :src="imageUrl" :lazy-src="lazyUrl"></v-img>
+    <v-img v-resize="onResize" v-if="intersected" :src="resizedImgUrl" :lazy-src="lazyUrl"></v-img>
 
     <v-card-text>
       <v-divider />
@@ -62,6 +62,11 @@ export default {
       required: true,
       default: 'https://s3.amazonaws.com/launchlibrary/RocketImages/placeholder_320.png'
     },
+    imageSizes: {
+      type: Array,
+      required: true,
+      default: () => []
+    },
     tbddate: {
       type: Number,
       required: true,
@@ -71,10 +76,29 @@ export default {
   data () {
     return {
       intersected: false,
-      lazyUrl: 'https://s3.amazonaws.com/launchlibrary/RocketImages/placeholder_320.png'
+      lazyUrl: 'https://s3.amazonaws.com/launchlibrary/RocketImages/placeholder_320.png',
+      windowSize: {
+        x: 0,
+        y: 0
+      }
+    }
+  },
+  methods: {
+    onResize () {
+      this.windowSize = { x: this.$el.clientWidth, y: this.$el.clientWidth }
+    }
+  },
+  computed: {
+    resizedImgUrl () {
+      let size = this.imageSizes.reduce((prev, curr) => {
+        return prev >= this.windowSize.x ? prev : curr <= this.windowSize.x ? curr : prev
+      })
+      let resizedImgUrl = this.imageUrl.replace(/(_)(\d+)(.)/, `$1${size}$3`)
+      return resizedImgUrl
     }
   },
   mounted () {
+    this.onResize()
     const observer = new IntersectionObserver(entries => {
       const launchCard = entries[0]
       if (launchCard.isIntersecting) {

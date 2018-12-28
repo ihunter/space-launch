@@ -9,6 +9,7 @@
           :netstamp="launch.netstamp"
           :missions="launch.missions"
           :imageUrl="launch.rocket.imageURL"
+          :imageSizes="launch.rocket.imageSizes"
           :tbddate="launch.tbddate"
         />
       </v-flex>
