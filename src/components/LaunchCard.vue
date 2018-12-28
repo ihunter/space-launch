@@ -8,7 +8,7 @@
       </div>
     </v-toolbar>
 
-    <v-img :src="imageUrl"></v-img>
+    <v-img :src="imageUrl" :lazy-src="lazyUrl"></v-img>
 
     <v-card-text>
       <v-divider />
@@ -60,12 +60,17 @@ export default {
     imageUrl: {
       type: String,
       required: true,
-      default: 'https://s3.amazonaws.com/launchlibrary/RocketImages/placeholder_1920.png'
+      default: 'https://s3.amazonaws.com/launchlibrary/RocketImages/placeholder_320.png'
     },
     tbddate: {
       type: Number,
       required: true,
       default: 1
+    }
+  },
+  data () {
+    return {
+      lazyUrl: 'https://s3.amazonaws.com/launchlibrary/RocketImages/placeholder_320.png'
     }
   }
 }
