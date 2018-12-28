@@ -8,7 +8,7 @@
       </div>
     </v-toolbar>
 
-    <v-img :src="imageUrl" :lazy-src="lazyUrl"></v-img>
+    <v-img v-if="intersected" :src="imageUrl" :lazy-src="lazyUrl"></v-img>
 
     <v-card-text>
       <v-divider />
@@ -70,8 +70,20 @@ export default {
   },
   data () {
     return {
+      intersected: false,
       lazyUrl: 'https://s3.amazonaws.com/launchlibrary/RocketImages/placeholder_320.png'
     }
+  },
+  mounted () {
+    const observer = new IntersectionObserver(entries => {
+      const launchCard = entries[0]
+      if (launchCard.isIntersecting) {
+        this.intersected = true
+        observer.disconnect()
+      }
+    })
+
+    observer.observe(this.$el)
   }
 }
 </script>
