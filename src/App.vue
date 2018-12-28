@@ -23,6 +23,18 @@
       <v-btn icon>
         <v-icon>filter_list</v-icon>
       </v-btn>
+
+      <v-menu>
+        <v-btn icon slot="activator">
+          <v-icon>more_vert</v-icon>
+        </v-btn>
+
+        <v-list>
+          <v-list-tile @click="toggleDarkMode">
+            <v-list-tile-title>Dark Mode</v-list-tile-title>
+          </v-list-tile>
+        </v-list>
+      </v-menu>
     </v-toolbar>
 
     <v-content>
@@ -36,16 +48,24 @@ export default {
   name: 'App',
   data () {
     return {
-      drawer: false
+      drawer: false,
+      darkMode: false
     }
   },
-  computed: {
-    darkMode () {
-      return localStorage.darkMode === 'true'
+  methods: {
+    toggleDarkMode () {
+      this.darkMode = !this.darkMode
     }
   },
   mounted () {
-    localStorage.darkMode = true
+    if (localStorage.darkMode) {
+      this.darkMode = localStorage.darkMode === 'true'
+    }
+  },
+  watch: {
+    darkMode (mode) {
+      localStorage.darkMode = mode
+    }
   }
 }
 </script>
