@@ -1,5 +1,5 @@
 <template>
-  <v-app>
+  <v-app :dark="darkMode">
     <v-navigation-drawer app temporary v-model="drawer">
       <v-img src="https://cdn.vuetifyjs.com/images/cards/desert.jpg"></v-img>
       <v-list>
@@ -38,6 +38,14 @@ export default {
     return {
       drawer: false
     }
+  },
+  computed: {
+    darkMode () {
+      return localStorage.darkMode === 'true'
+    }
+  },
+  mounted () {
+    localStorage.darkMode = true
   }
 }
 </script>
