@@ -8,7 +8,25 @@
       </div>
     </v-toolbar>
 
-    <v-img v-resize="onResize" v-if="intersected" :src="resizedImgUrl" :lazy-src="lazyUrl"></v-img>
+    <v-img
+      v-if="intersected"
+      v-resize="onResize"
+      :src="resizedImgUrl"
+      :lazy-src="placeholder"
+    >
+      <v-layout
+        slot="placeholder"
+        fill-height
+        align-center
+        justify-center
+        ma-0
+      >
+        <v-progress-circular
+          indeterminate
+          color="primary"
+        />
+      </v-layout>
+    </v-img>
 
     <v-card-text>
       <v-divider />
@@ -76,11 +94,11 @@ export default {
   data () {
     return {
       intersected: false,
-      lazyUrl: 'https://s3.amazonaws.com/launchlibrary/RocketImages/placeholder_320.png',
       windowSize: {
         x: 0,
         y: 0
-      }
+      },
+      placeholder: require('@/assets/placeholder_320.png')
     }
   },
   methods: {
