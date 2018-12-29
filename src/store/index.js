@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import moment from 'moment'
+import createPersistedState from 'vuex-persistedstate'
 
 import launches from './launches'
 import loading from './loading'
@@ -8,6 +9,7 @@ import loading from './loading'
 Vue.use(Vuex)
 
 export default new Vuex.Store({
+  plugins: [createPersistedState()],
   state: {
     currentTime: moment().unix()
   },

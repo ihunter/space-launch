@@ -4,6 +4,7 @@ import moment from 'moment'
 export default {
   state: {
     limit: 5,
+    pagination: 0,
     launches: {},
     agencies: [
       {
@@ -61,6 +62,9 @@ export default {
     limit (state) {
       return state.limit
     },
+    pagination (state) {
+      return state.pagination
+    },
     agencies (state) {
       return state.agencies
     },
@@ -69,15 +73,12 @@ export default {
     },
     launches (state) {
       return state.launches.launches
-    },
-    offset (state) {
-      return parseInt(state.launches.offset)
-    },
-    count (state) {
-      return state.launches.count
     }
   },
   mutations: {
+    setPagination (state, payload) {
+      state.pagination = payload
+    },
     setLaunches (state, launches) {
       state.launches = launches
     },
@@ -89,6 +90,7 @@ export default {
   actions: {
     async loadLaunches ({ commit, dispatch, getters }) {
       dispatch('setLoading', true)
+      commit('setPagination', 1)
       const filteredAgencies = getters.filteredAgencies
       const limit = getters.limit
       const requests = []
@@ -100,17 +102,10 @@ export default {
         const requestData = await Promise.all(requests)
 
         const filteredLaunches = {
-          launches: [],
-          total: 0,
-          offset: 0,
-          count: 0
+          launches: []
         }
-
         requestData.forEach(agencyLaunches => {
           filteredLaunches.launches = filteredLaunches.launches.concat(agencyLaunches.data.launches)
-          filteredLaunches.total += agencyLaunches.data.total
-          filteredLaunches.offset = agencyLaunches.data.offset
-          filteredLaunches.count += agencyLaunches.data.count
         })
 
         filteredLaunches.launches = filteredLaunches.launches.sort((a, b) => {
@@ -128,38 +123,35 @@ export default {
     },
     async loadMoreLaunches ({ commit, dispatch, getters }) {
       dispatch('setLoading', true)
+      commit('setPagination', getters.pagination + 1)
       const filteredAgencies = getters.filteredAgencies
       const limit = getters.limit
+      const pagination = getters.pagination
+      const modifier = limit * pagination
       const requests = []
-      const offset = getters.offset + limit
       try {
         filteredAgencies.forEach(agency => {
-          requests.push(axios.get(`https://launchlibrary.net/1.4/launch/next/${limit}?lsp=${agency.abbrev}&offset=${offset}`))
+          requests.push(axios.get(`https://launchlibrary.net/1.4/launch/next/${modifier}?lsp=${agency.abbrev}`))
         })
 
         const requestData = await Promise.all(requests)
 
         const filteredLaunches = {
           launches: [],
-          total: 0,
-          offset: 0,
-          count: 0
+          count: modifier
         }
 
         requestData.forEach(agencyLaunches => {
           filteredLaunches.launches = filteredLaunches.launches.concat(agencyLaunches.data.launches)
-          filteredLaunches.total += agencyLaunches.data.total
-          filteredLaunches.offset = agencyLaunches.data.offset
-          filteredLaunches.count += agencyLaunches.data.count
         })
 
         filteredLaunches.launches = filteredLaunches.launches.sort((a, b) => {
           const dateA = moment(a.net, 'MMMM DD, YYYY HH:mm:ss Z')
           const dateB = moment(b.net, 'MMMM DD, YYYY HH:mm:ss Z')
           return dateA.diff(dateB)
-        }).slice(0, limit)
+        }).slice(0, modifier)
 
-        commit('addLaunches', filteredLaunches)
+        commit('setLaunches', filteredLaunches)
       } catch (e) {
         console.error(e)
       } finally {

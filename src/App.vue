@@ -48,6 +48,7 @@
             <v-layout row wrap>
               <v-flex>
                 <v-checkbox
+                  @change="loadLaunches()"
                   v-for="agency in agencies"
                   :key="agency.id"
                   :label="agency.name"
@@ -80,7 +81,7 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import { mapGetters, mapActions } from 'vuex'
 
 export default {
   name: 'App',
@@ -95,7 +96,8 @@ export default {
   methods: {
     toggleDarkMode () {
       this.darkMode = !this.darkMode
-    }
+    },
+    ...mapActions(['loadLaunches'])
   },
   computed: {
     ...mapGetters(['agencies'])
