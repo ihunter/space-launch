@@ -14,18 +14,33 @@
         />
       </v-flex>
     </v-layout>
+    <v-layout justify-center>
+      <v-flex xs12 sm10 md8 lg6 xl4>
+        <v-btn
+          block
+          large
+          :loading="loading"
+          @click="loadMoreLaunches"
+        >
+          Load More
+        </v-btn>
+      </v-flex>
+    </v-layout>
   </v-container>
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import { mapGetters, mapActions } from 'vuex'
 
 export default {
   components: {
     LaunchCard: () => import('@/components/LaunchCard')
   },
   computed: {
-    ...mapGetters(['launches'])
+    ...mapGetters(['launches', 'loading'])
+  },
+  methods: {
+    ...mapActions(['loadMoreLaunches'])
   }
 }
 </script>
