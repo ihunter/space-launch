@@ -1,10 +1,72 @@
 import axios from 'axios'
+import moment from 'moment'
 
 export default {
   state: {
-    launches: {}
+    limit: 5,
+    launches: {},
+    agencies: [
+      {
+        id: 88,
+        name: 'China Aerospace Science and Technology Corporation',
+        countryCode: 'CHN',
+        abbrev: 'CASC',
+        enabled: false
+      },
+      {
+        id: 121,
+        name: 'SpaceX',
+        countryCode: 'USA',
+        abbrev: 'SpX',
+        enabled: true
+      },
+      {
+        id: 63,
+        name: 'Russian Federal Space Agency (ROSCOSMOS)',
+        countryCode: 'RUS',
+        abbrev: 'RFSA',
+        enabled: false
+      },
+      {
+        id: 124,
+        name: 'United Launch Alliance',
+        countryCode: 'USA',
+        abbrev: 'ULA',
+        enabled: true
+      },
+      {
+        id: 115,
+        name: 'Arianespace',
+        countryCode: 'FRA',
+        abbrev: 'ASA',
+        enabled: false
+      },
+      {
+        id: 44,
+        name: 'National Aeronautics and Space Administration',
+        countryCode: 'USA',
+        abbrev: 'NASA',
+        enabled: false
+      },
+      {
+        id: 31,
+        name: 'Indian Space Research Organization',
+        countryCode: 'IND',
+        abbrev: 'ISRO',
+        enabled: false
+      }
+    ]
   },
   getters: {
+    limit (state) {
+      return state.limit
+    },
+    agencies (state) {
+      return state.agencies
+    },
+    filteredAgencies (state) {
+      return state.agencies.filter(agency => agency.enabled)
+    },
     launches (state) {
       return state.launches.launches
     },
@@ -25,11 +87,39 @@ export default {
     }
   },
   actions: {
-    async loadLaunches ({ commit, dispatch }, limit = 5) {
+    async loadLaunches ({ commit, dispatch, getters }) {
       dispatch('setLoading', true)
+      const filteredAgencies = getters.filteredAgencies
+      const limit = getters.limit
+      const requests = []
       try {
-        const launches = await axios.get(`https://launchlibrary.net/1.4/launch/next/${limit}`)
-        commit('setLaunches', launches.data)
+        filteredAgencies.forEach(agency => {
+          requests.push(axios.get(`https://launchlibrary.net/1.4/launch/next/${limit}?lsp=${agency.abbrev}`))
+        })
+
+        const requestData = await Promise.all(requests)
+
+        const filteredLaunches = {
+          launches: [],
+          total: 0,
+          offset: 0,
+          count: 0
+        }
+
+        requestData.forEach(agencyLaunches => {
+          filteredLaunches.launches = filteredLaunches.launches.concat(agencyLaunches.data.launches)
+          filteredLaunches.total += agencyLaunches.data.total
+          filteredLaunches.offset = agencyLaunches.data.offset
+          filteredLaunches.count += agencyLaunches.data.count
+        })
+
+        filteredLaunches.launches = filteredLaunches.launches.sort((a, b) => {
+          const dateA = moment(a.net, 'MMMM DD, YYYY HH:mm:ss Z')
+          const dateB = moment(b.net, 'MMMM DD, YYYY HH:mm:ss Z')
+          return dateA.diff(dateB)
+        }).slice(0, limit)
+
+        commit('setLaunches', filteredLaunches)
       } catch (e) {
         console.error(e)
       } finally {
@@ -38,11 +128,38 @@ export default {
     },
     async loadMoreLaunches ({ commit, dispatch, getters }) {
       dispatch('setLoading', true)
+      const filteredAgencies = getters.filteredAgencies
+      const limit = getters.limit
+      const requests = []
+      const offset = getters.offset + limit
       try {
-        const count = getters.count
-        const offset = getters.offset + count
-        const launches = await axios.get(`https://launchlibrary.net/1.4/launch/next/${count}?offset=${offset}`)
-        commit('addLaunches', launches.data)
+        filteredAgencies.forEach(agency => {
+          requests.push(axios.get(`https://launchlibrary.net/1.4/launch/next/${limit}?lsp=${agency.abbrev}&offset=${offset}`))
+        })
+
+        const requestData = await Promise.all(requests)
+
+        const filteredLaunches = {
+          launches: [],
+          total: 0,
+          offset: 0,
+          count: 0
+        }
+
+        requestData.forEach(agencyLaunches => {
+          filteredLaunches.launches = filteredLaunches.launches.concat(agencyLaunches.data.launches)
+          filteredLaunches.total += agencyLaunches.data.total
+          filteredLaunches.offset = agencyLaunches.data.offset
+          filteredLaunches.count += agencyLaunches.data.count
+        })
+
+        filteredLaunches.launches = filteredLaunches.launches.sort((a, b) => {
+          const dateA = moment(a.net, 'MMMM DD, YYYY HH:mm:ss Z')
+          const dateB = moment(b.net, 'MMMM DD, YYYY HH:mm:ss Z')
+          return dateA.diff(dateB)
+        }).slice(0, limit)
+
+        commit('addLaunches', filteredLaunches)
       } catch (e) {
         console.error(e)
       } finally {

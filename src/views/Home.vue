@@ -3,6 +3,7 @@
     <v-layout justify-center v-for="launch in launches" :key="launch.id">
       <v-flex xs12 sm10 md8 lg6 xl4>
         <LaunchCard
+          :id="launch.id"
           :name="launch.name"
           :location="launch.location.name"
           :net="launch.net"

@@ -19,10 +19,46 @@
       <v-toolbar-title>
         Space Launch Calendar
       </v-toolbar-title>
+
       <v-spacer></v-spacer>
-      <v-btn icon>
-        <v-icon>filter_list</v-icon>
-      </v-btn>
+
+      <v-dialog
+        v-model="settings"
+        fullscreen
+        hide-overlay
+        transition="dialog-bottom-transition"
+      >
+        <v-btn icon slot="activator">
+          <v-icon>filter_list</v-icon>
+        </v-btn>
+
+        <v-card>
+          <v-toolbar>
+            <v-toolbar-title>Settings</v-toolbar-title>
+            <v-spacer></v-spacer>
+            <v-btn
+              icon
+              @click="settings = false"
+            >
+              <v-icon>close</v-icon>
+            </v-btn>
+          </v-toolbar>
+
+          <v-container fluid>
+            <v-layout row wrap>
+              <v-flex>
+                <v-checkbox
+                  v-for="agency in agencies"
+                  :key="agency.id"
+                  :label="agency.name"
+                  v-model="agency.enabled"
+                  hide-details
+                ></v-checkbox>
+              </v-flex>
+            </v-layout>
+          </v-container>
+        </v-card>
+      </v-dialog>
 
       <v-menu>
         <v-btn icon slot="activator">
@@ -44,18 +80,25 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
+
 export default {
   name: 'App',
   data () {
     return {
       drawer: false,
-      darkMode: false
+      darkMode: false,
+      settings: false,
+      filters: []
     }
   },
   methods: {
     toggleDarkMode () {
       this.darkMode = !this.darkMode
     }
+  },
+  computed: {
+    ...mapGetters(['agencies'])
   },
   mounted () {
     if (localStorage.darkMode) {

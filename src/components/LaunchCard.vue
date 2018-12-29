@@ -9,6 +9,8 @@
     </v-toolbar>
 
     <v-img
+      aspect-ratio="2"
+      position="center center"
       v-if="intersected"
       v-resize="onResize"
       :src="resizedImgUrl"
@@ -35,21 +37,35 @@
           {{ tbddate ? 'Launch Date Unconfirmed' : 'Go for Launch'}}
         </span>
       </div>
-      <div v-for="mission in missions" :key="mission.id">
-        <div>
-          {{ mission.name }}
-        </div>
-        <div>
-          {{ mission.description }}
-        </div>
+      <div class="countdown">
+        <Countdown :eventTime="netstamp" />
       </div>
+      <v-divider />
+      <v-list three-line>
+        <v-list-tile v-for="mission in missions" :key="mission.id">
+          <v-list-tile-content>
+            <v-list-tile-title>{{ mission.name }}</v-list-tile-title>
+            <v-list-tile-sub-title>{{ mission.description }}</v-list-tile-sub-title>
+          </v-list-tile-content>
+        </v-list-tile>
+      </v-list>
     </v-card-text>
   </v-card>
 </template>
 
 <script>
+import Countdown from '@/components/Countdown'
+
 export default {
+  components: {
+    Countdown
+  },
   props: {
+    id: {
+      type: Number,
+      required: true,
+      default: 0
+    },
     name: {
       type: String,
       required: true,
@@ -154,6 +170,11 @@ export default {
   background-color: red;
   position: relative;
   top: -15px;
+}
+
+.countdown {
+  display: flex;
+  justify-content: center
 }
 
 .test-flex {
