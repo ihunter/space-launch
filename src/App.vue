@@ -22,6 +22,10 @@
 
       <v-spacer></v-spacer>
 
+      <v-btn icon @click="toggleViewMode">
+        <v-icon>{{ viewMode ? 'view_day' : 'view_module' }}</v-icon>
+      </v-btn>
+
       <v-dialog
         v-model="settings"
         fullscreen
@@ -81,36 +85,23 @@
 </template>
 
 <script>
-import { mapGetters, mapActions } from 'vuex'
+import { mapGetters, mapMutations, mapActions } from 'vuex'
 
 export default {
   name: 'App',
   data () {
     return {
       drawer: false,
-      darkMode: false,
       settings: false,
       filters: []
     }
   },
   methods: {
-    toggleDarkMode () {
-      this.darkMode = !this.darkMode
-    },
+    ...mapMutations(['toggleViewMode', 'toggleDarkMode']),
     ...mapActions(['loadLaunches'])
   },
   computed: {
-    ...mapGetters(['agencies'])
-  },
-  mounted () {
-    if (localStorage.darkMode) {
-      this.darkMode = localStorage.darkMode === 'true'
-    }
-  },
-  watch: {
-    darkMode (mode) {
-      localStorage.darkMode = mode
-    }
+    ...mapGetters(['agencies', 'viewMode', 'darkMode'])
   }
 }
 </script>

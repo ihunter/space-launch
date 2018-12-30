@@ -1,5 +1,5 @@
 <template>
-  <v-card>
+  <v-card height="100%">
     <v-toolbar card extended>
       <h3>{{ name }}</h3>
       <div slot="extension" class="toolbar-extension">
