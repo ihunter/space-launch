@@ -6,6 +6,7 @@ export default {
     limit: 6,
     pagination: 0,
     launches: {},
+    hideTBA: false,
     agencies: [
       {
         id: 88,
@@ -68,6 +69,9 @@ export default {
     agencies (state) {
       return state.agencies
     },
+    hideTBA (state) {
+      return state.hideTBA
+    },
     filteredAgencies (state) {
       return state.agencies.filter(agency => agency.enabled)
     },
@@ -85,6 +89,9 @@ export default {
     addLaunches (state, launches) {
       state.launches.offset = launches.offset
       state.launches.launches = state.launches.launches.concat(launches.launches)
+    },
+    toggleTBA (state, payload) {
+      state.hideTBA = payload
     }
   },
   actions: {
@@ -112,7 +119,15 @@ export default {
           const dateA = moment(a.net, 'MMMM DD, YYYY HH:mm:ss Z')
           const dateB = moment(b.net, 'MMMM DD, YYYY HH:mm:ss Z')
           return dateA.diff(dateB)
-        }).slice(0, limit)
+        })
+
+        if (getters.hideTBA) {
+          filteredLaunches.launches = filteredLaunches.launches.filter(launch => {
+            return launch.tbddate !== 1
+          })
+        }
+
+        filteredLaunches.launches = filteredLaunches.launches.slice(0, limit)
 
         commit('setLaunches', filteredLaunches)
       } catch (e) {

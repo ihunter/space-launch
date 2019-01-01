@@ -59,6 +59,12 @@
                   v-model="agency.enabled"
                   hide-details
                 ></v-checkbox>
+
+                <v-switch
+                  @change="loadLaunches()"
+                  label="Hide TBA Launches"
+                  v-model="hideTBASwitch"
+                ></v-switch>
               </v-flex>
             </v-layout>
           </v-container>
@@ -97,11 +103,19 @@ export default {
     }
   },
   methods: {
-    ...mapMutations(['toggleViewMode', 'toggleDarkMode']),
+    ...mapMutations(['toggleViewMode', 'toggleDarkMode', 'toggleTBA']),
     ...mapActions(['loadLaunches'])
   },
   computed: {
-    ...mapGetters(['agencies', 'viewMode', 'darkMode'])
+    ...mapGetters(['agencies', 'viewMode', 'darkMode', 'hideTBA']),
+    hideTBASwitch: {
+      get () {
+        return this.hideTBA
+      },
+      set (value) {
+        this.toggleTBA(value)
+      }
+    }
   }
 }
 </script>
