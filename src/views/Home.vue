@@ -1,7 +1,7 @@
 <template>
   <v-container grid-list-lg v-scroll="onScroll">
     <template v-if="viewMode">
-      <v-layout row wrap>
+      <v-layout justify-center row wrap>
         <v-flex xs12 md6 lg4 v-for="launch in launches" :key="launch.id">
           <LaunchCard
             :id="launch.id"

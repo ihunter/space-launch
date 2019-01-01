@@ -164,7 +164,15 @@ export default {
           const dateA = moment(a.net, 'MMMM DD, YYYY HH:mm:ss Z')
           const dateB = moment(b.net, 'MMMM DD, YYYY HH:mm:ss Z')
           return dateA.diff(dateB)
-        }).slice(0, modifier)
+        })
+
+        if (getters.hideTBA) {
+          filteredLaunches.launches = filteredLaunches.launches.filter(launch => {
+            return launch.tbddate !== 1
+          })
+        }
+
+        filteredLaunches.launches = filteredLaunches.launches.slice(0, modifier)
 
         commit('setLaunches', filteredLaunches)
       } catch (e) {
