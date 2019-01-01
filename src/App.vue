@@ -22,7 +22,7 @@
 
       <v-spacer></v-spacer>
 
-      <v-btn icon @click="toggleViewMode">
+      <v-btn icon @click="toggleViewMode" class="hidden-sm-and-down">
         <v-icon>{{ viewMode ? 'view_day' : 'view_module' }}</v-icon>
       </v-btn>
 
@@ -48,26 +48,34 @@
             </v-btn>
           </v-toolbar>
 
-          <v-container fluid>
-            <v-layout row wrap>
-              <v-flex>
+          <v-list three-line subheader>
+            <v-subheader>General</v-subheader>
+            <v-list-tile avatar v-for="agency in agencies" :key="agency.id">
+              <v-list-tile-action>
                 <v-checkbox
                   @change="loadLaunches()"
-                  v-for="agency in agencies"
-                  :key="agency.id"
-                  :label="agency.name"
                   v-model="agency.enabled"
                   hide-details
                 ></v-checkbox>
+              </v-list-tile-action>
+              <v-list-tile-content>
+                <v-list-tile-title>{{ agency.name }}</v-list-tile-title>
+              </v-list-tile-content>
+            </v-list-tile>
 
+            <v-list-tile avatar>
+              <v-list-tile-action>
                 <v-switch
                   @change="loadLaunches()"
                   label="Hide TBA Launches"
                   v-model="hideTBASwitch"
                 ></v-switch>
-              </v-flex>
-            </v-layout>
-          </v-container>
+              </v-list-tile-action>
+              <v-list-tile-content>
+                <v-list-tile-title>Hide TBA Launches</v-list-tile-title>
+              </v-list-tile-content>
+            </v-list-tile>
+          </v-list>
         </v-card>
       </v-dialog>
 

@@ -61,11 +61,13 @@
 </template>
 
 <script>
+import Countdown from '@/components/Countdown'
+
 import moment from 'moment'
 
 export default {
   components: {
-    Countdown: () => import('@/components/Countdown')
+    Countdown
   },
   props: {
     id: {
