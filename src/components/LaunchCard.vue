@@ -123,7 +123,7 @@ export default {
   },
   filters: {
     calendar (net) {
-      return moment('MMMM D, YYYY HH:mm:ss Z', net).format('MMMM D, YYYY, h:mm A')
+      return moment(net, 'MMMM D, YYYY HH:mm:ss Z').format('MMMM D, YYYY, h:mm A')
     },
     missionName (name) {
       return name.split('|')[1]
