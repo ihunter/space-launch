@@ -1,10 +1,10 @@
 <template>
   <v-card height="100%">
     <v-toolbar card extended>
-      <h3>{{ name }}</h3>
+      <h3>{{ title }}</h3>
       <div slot="extension" class="toolbar-extension">
         <p>{{ location }}</p>
-        <p>{{ net }}</p>
+        <p>{{ net | calendar }}</p>
       </div>
     </v-toolbar>
 
@@ -48,6 +48,13 @@
             <v-list-tile-sub-title>{{ mission.description }}</v-list-tile-sub-title>
           </v-list-tile-content>
         </v-list-tile>
+
+        <v-list-tile v-if="missions.length < 1">
+          <v-list-tile-content>
+            <v-list-tile-title>{{ name | missionName }}</v-list-tile-title>
+            <v-list-tile-sub-title>Unknown Mission Description</v-list-tile-sub-title>
+          </v-list-tile-content>
+        </v-list-tile>
       </v-list>
     </v-card-text>
   </v-card>
@@ -55,6 +62,8 @@
 
 <script>
 import Countdown from '@/components/Countdown'
+
+import moment from 'moment'
 
 export default {
   components: {
@@ -105,6 +114,19 @@ export default {
       type: Number,
       required: true,
       default: 1
+    },
+    lsp: {
+      type: String,
+      required: true,
+      default: 'LSP'
+    }
+  },
+  filters: {
+    calendar (net) {
+      return moment(net).format('MMMM D, YYYY, h:mm A')
+    },
+    missionName (name) {
+      return name.split('|')[1]
     }
   },
   data () {
@@ -123,6 +145,9 @@ export default {
     }
   },
   computed: {
+    title () {
+      return `${this.lsp} | ${this.name.split('|')[0]}`
+    },
     resizedImgUrl () {
       let size = this.imageSizes.reduce((prev, curr) => {
         return prev >= this.windowSize.x ? prev : curr <= this.windowSize.x ? curr : prev

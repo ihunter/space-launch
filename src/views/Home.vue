@@ -12,6 +12,7 @@
           :imageUrl="launch.rocket.imageURL"
           :imageSizes="launch.rocket.imageSizes"
           :tbddate="launch.tbddate"
+          :lsp="launch.lsp.name"
         />
       </v-flex>
     </v-layout>
