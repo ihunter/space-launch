@@ -14,7 +14,7 @@
         </v-list-tile>
       </v-list>
     </v-navigation-drawer>
-    <v-toolbar app flat>
+    <v-toolbar app flat scroll-off-screen>
       <v-toolbar-side-icon @click="drawer = !drawer" />
       <v-toolbar-title>
         Space Launch Calendar
