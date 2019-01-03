@@ -4,6 +4,7 @@ import moment from 'moment'
 import createPersistedState from 'vuex-persistedstate'
 
 import launches from './launches'
+import launchDetails from './launchDetails'
 import loading from './loading'
 
 Vue.use(Vuex)
@@ -46,6 +47,7 @@ export default new Vuex.Store({
   },
   modules: {
     launches,
+    launchDetails,
     loading
   }
 })

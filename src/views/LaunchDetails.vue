@@ -20,7 +20,7 @@
 </template>
 
 <script>
-import axios from 'axios'
+import { mapActions, mapGetters } from 'vuex'
 
 export default {
   components: {
@@ -33,13 +33,14 @@ export default {
       default: '0'
     }
   },
-  data () {
-    return {
-      launchDetails: {}
-    }
+  mounted () {
+    this.fetchLaunchDetails(this.id)
   },
-  async mounted () {
-    this.launchDetails = (await axios.get(`https://launchlibrary.net/1.4/launch/${this.id}`)).data.launches[0]
+  computed: {
+    ...mapGetters(['loading', 'launchDetails'])
+  },
+  methods: {
+    ...mapActions(['fetchLaunchDetails'])
   }
 }
 </script>

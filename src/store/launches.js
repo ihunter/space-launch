@@ -77,6 +77,9 @@ export default {
     },
     launches (state) {
       return state.launches.launches
+    },
+    getLaunchById (state) {
+      return id => state.launches.launches.find(launch => launch.id === id)
     }
   },
   mutations: {

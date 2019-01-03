@@ -1,5 +1,5 @@
 <template>
-  <v-card height="100%" hover :to="`launch/${id}`">
+  <v-card height="100%">
     <v-toolbar card extended>
       <h3>{{ title }}</h3>
       <div slot="extension" class="toolbar-extension">
@@ -41,7 +41,51 @@
         <Countdown :eventTime="netstamp" />
       </div>
       <v-divider />
-      <v-list three-line>
+
+      <v-tabs grow>
+        <v-tab>
+          Details
+        </v-tab>
+        <v-tab>
+          Misson
+        </v-tab>
+        <v-tab>
+          Agency
+        </v-tab>
+
+        <v-tab-item>
+          <v-card flat>
+            <v-card-text>
+              Details
+            </v-card-text>
+          </v-card>
+        </v-tab-item>
+
+        <v-tab-item>
+          <v-card flat>
+            <v-card-text>
+              <div v-for="mission in missions" :key="mission.id">
+                <div>
+                  {{ mission.name }}
+                </div>
+                <div>
+                  {{ mission.description }}
+                </div>
+              </div>
+            </v-card-text>
+          </v-card>
+        </v-tab-item>
+
+        <v-tab-item>
+          <v-card flat>
+            <v-card-text>
+              Agency
+            </v-card-text>
+          </v-card>
+        </v-tab-item>
+      </v-tabs>
+
+      <!-- <v-list three-line>
         <v-list-tile v-for="mission in missions" :key="mission.id">
           <v-list-tile-content>
             <v-list-tile-title>{{ mission.name }}</v-list-tile-title>
@@ -55,7 +99,7 @@
             <v-list-tile-sub-title>Unknown Mission Description</v-list-tile-sub-title>
           </v-list-tile-content>
         </v-list-tile>
-      </v-list>
+      </v-list> -->
     </v-card-text>
   </v-card>
 </template>
