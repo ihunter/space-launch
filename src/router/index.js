@@ -10,12 +10,12 @@ export default new Router({
     {
       path: '/',
       name: 'home',
-      component: () => import(/* webpackChunkName: "home" */ './views/Home')
+      component: () => import(/* webpackChunkName: "home" */ '@/views/Home')
     },
     {
       path: '/launch/:id',
       name: 'launch-details',
-      component: () => import(/* webpackChunkName: "launch-details" */ './views/LaunchDetails'),
+      component: () => import(/* webpackChunkName: "launch-details" */ '@/views/LaunchDetails'),
       props: true
     }
   ]
