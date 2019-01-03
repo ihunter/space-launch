@@ -29,15 +29,14 @@ export default {
   props: {
     id: {
       type: String,
-      required: true,
-      default: '0'
+      required: true
     }
   },
   mounted () {
     this.fetchLaunchDetails(this.id)
   },
   computed: {
-    ...mapGetters(['loading', 'launchDetails'])
+    ...mapGetters(['launchDetails'])
   },
   methods: {
     ...mapActions(['fetchLaunchDetails'])

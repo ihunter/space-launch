@@ -16,7 +16,6 @@ export default {
   },
   actions: {
     async fetchLaunchDetails ({ commit }, payload) {
-      console.log('fetching details', payload)
       commit('setLoading', true)
       try {
         const { launches } = (await axios.get(`https://launchlibrary.net/1.4/launch/${payload}`)).data

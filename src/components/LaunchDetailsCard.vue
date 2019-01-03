@@ -116,53 +116,43 @@ export default {
   props: {
     id: {
       type: Number,
-      required: true,
-      default: 0
+      required: true
     },
     name: {
       type: String,
-      required: true,
-      default: 'NAME'
+      required: true
     },
     location: {
       type: String,
-      required: true,
-      default: 'LOCATION'
+      required: true
     },
     net: {
       type: String,
-      required: true,
-      default: '0'
+      required: true
     },
     netstamp: {
       type: Number,
-      required: true,
-      default: 0
+      required: true
     },
     missions: {
       type: Array,
-      required: true,
-      default: () => []
+      required: true
     },
     imageUrl: {
       type: String,
-      required: true,
-      default: 'https://s3.amazonaws.com/launchlibrary/RocketImages/placeholder_320.png'
+      required: true
     },
     imageSizes: {
       type: Array,
-      required: true,
-      default: () => []
+      required: true
     },
     tbddate: {
       type: Number,
-      required: true,
-      default: 1
+      required: true
     },
     lsp: {
       type: String,
-      required: true,
-      default: 'LSP'
+      required: true
     }
   },
   filters: {
