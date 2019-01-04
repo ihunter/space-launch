@@ -65,7 +65,7 @@ import moment from 'moment'
 
 export default {
   components: {
-    Countdown: () => import('@/components/Countdown')
+    Countdown: () => import('@/components/Countdown/Index')
   },
   props: {
     id: {

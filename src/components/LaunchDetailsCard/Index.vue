@@ -9,8 +9,9 @@
     </v-toolbar>
 
     <v-img
-      aspect-ratio="2"
-      position="center center"
+      contain
+      aspect-ratio="1.5"
+      position="center top"
       v-if="intersected"
       v-resize="onResize"
       :src="resizedImgUrl"
@@ -44,19 +45,86 @@
 
       <v-tabs grow>
         <v-tab>
-          Details
-        </v-tab>
-        <v-tab>
           Misson
         </v-tab>
         <v-tab>
           Agency
         </v-tab>
+        <v-tab>
+          Rocket
+        </v-tab>
+        <v-tab>
+          Location
+        </v-tab>
+
+        <v-tab-item>
+          <v-container grid-list-xl>
+            <v-layout row wrap>
+              <v-flex v-if="missions.length < 1">
+                <v-card height="100%">
+                  <v-toolbar card>
+                    <v-toolbar-title>
+                      Misson {{ 1 }} - {{ name | missionName }}
+                    </v-toolbar-title>
+                  </v-toolbar>
+                  <v-card-text>
+                    Unknown Mission Description
+                  </v-card-text>
+                </v-card>
+              </v-flex>
+              <v-flex
+                v-for="(mission, n) in missions"
+                :key="mission.id">
+                <v-card height="100%">
+                  <v-toolbar card>
+                    <v-toolbar-title>
+                      Misson {{ n + 1 }} - {{ mission.name }}
+                    </v-toolbar-title>
+                  </v-toolbar>
+                  <v-card-text>
+                    {{ mission.description }}
+                  </v-card-text>
+                </v-card>
+              </v-flex>
+            </v-layout>
+          </v-container>
+        </v-tab-item>
+
+        <v-tab-item>
+          <v-container>
+            <v-layout>
+              <v-flex>
+                <v-card>
+                  <v-toolbar>
+                    <v-toolbar-title>
+                      {{ lsp.name }}
+                    </v-toolbar-title>
+                  </v-toolbar>
+
+                  <v-card-text>
+                    Lorem ipsum dolor sit amet consectetur, adipisicing elit. Voluptatum sit, deserunt amet dolores ipsam est ipsum sapiente iste at tempore. Voluptate eaque inventore officiis eius, aliquid eos soluta dicta nesciunt.
+                  </v-card-text>
+
+                  <v-card-actions>
+                    <v-btn
+                      :href="info"
+                      target="_blank"
+                      v-for="info in lsp.infoURLs"
+                      :key="info"
+                    >
+                      {{ info | infoUrlName }}
+                    </v-btn>
+                  </v-card-actions>
+                </v-card>
+              </v-flex>
+            </v-layout>
+          </v-container>
+        </v-tab-item>
 
         <v-tab-item>
           <v-card flat>
             <v-card-text>
-              Details
+              Rocket
             </v-card-text>
           </v-card>
         </v-tab-item>
@@ -64,54 +132,21 @@
         <v-tab-item>
           <v-card flat>
             <v-card-text>
-              <div v-for="mission in missions" :key="mission.id">
-                <div>
-                  {{ mission.name }}
-                </div>
-                <div>
-                  {{ mission.description }}
-                </div>
-              </div>
-            </v-card-text>
-          </v-card>
-        </v-tab-item>
-
-        <v-tab-item>
-          <v-card flat>
-            <v-card-text>
-              Agency
+              Location
             </v-card-text>
           </v-card>
         </v-tab-item>
       </v-tabs>
-
-      <!-- <v-list three-line>
-        <v-list-tile v-for="mission in missions" :key="mission.id">
-          <v-list-tile-content>
-            <v-list-tile-title>{{ mission.name }}</v-list-tile-title>
-            <v-list-tile-sub-title>{{ mission.description }}</v-list-tile-sub-title>
-          </v-list-tile-content>
-        </v-list-tile>
-
-        <v-list-tile v-if="missions.length < 1">
-          <v-list-tile-content>
-            <v-list-tile-title>{{ name | missionName }}</v-list-tile-title>
-            <v-list-tile-sub-title>Unknown Mission Description</v-list-tile-sub-title>
-          </v-list-tile-content>
-        </v-list-tile>
-      </v-list> -->
     </v-card-text>
   </v-card>
 </template>
 
 <script>
-import Countdown from '@/components/Countdown'
-
 import moment from 'moment'
 
 export default {
   components: {
-    Countdown
+    Countdown: () => import('@/components/Countdown/Index')
   },
   props: {
     id: {
@@ -151,7 +186,7 @@ export default {
       required: true
     },
     lsp: {
-      type: String,
+      type: Object,
       required: true
     }
   },
@@ -161,6 +196,9 @@ export default {
     },
     missionName (name) {
       return name.split('|')[1]
+    },
+    infoUrlName (infoUrl) {
+      return infoUrl.match(/(\w+-*\w*).(com|net|org|gov)/)[1]
     }
   },
   data () {

@@ -1,7 +1,7 @@
 <template>
   <v-container>
-    <v-layout>
-      <v-flex>
+    <v-layout justify-center>
+      <v-flex xs12 md10 lg8>
         <launch-details-card
           :id="launchDetails.id"
           :name="launchDetails.name"
@@ -12,7 +12,7 @@
           :imageUrl="launchDetails.rocket.imageURL"
           :imageSizes="launchDetails.rocket.imageSizes"
           :tbddate="launchDetails.tbddate"
-          :lsp="launchDetails.lsp.name"
+          :lsp="launchDetails.lsp"
         />
       </v-flex>
     </v-layout>
@@ -24,7 +24,7 @@ import { mapActions, mapGetters } from 'vuex'
 
 export default {
   components: {
-    LaunchDetailsCard: () => import('@/components/LaunchDetailsCard')
+    LaunchDetailsCard: () => import('@/components/LaunchDetailsCard/Index')
   },
   props: {
     id: {

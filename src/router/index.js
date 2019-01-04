@@ -14,8 +14,8 @@ export default new Router({
     },
     {
       path: '/launch/:id',
-      name: 'launch-details',
-      component: () => import(/* webpackChunkName: "launch-details" */ '@/views/LaunchDetails'),
+      name: 'launch',
+      component: () => import(/* webpackChunkName: "launch" */ '@/views/LaunchDetails'),
       props: true
     }
   ]
