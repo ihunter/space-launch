@@ -3,8 +3,8 @@
     <v-toolbar card extended>
       <h3>{{ title }}</h3>
       <div slot="extension" class="toolbar-extension">
-        <p>{{ location }}</p>
-        <p>{{ net | calendar }}</p>
+        <p>{{ launchDetails.location.name }}</p>
+        <p>{{ launchDetails.net | calendar }}</p>
       </div>
     </v-toolbar>
 
@@ -34,12 +34,12 @@
     <v-card-text>
       <v-divider />
       <div class="test-flex">
-        <span class="text-xs-center" :class="[tbddate ? 'launch-unconfirmed' : 'launch-confirmed']">
-          {{ tbddate ? 'Launch Date Unconfirmed' : 'Go for Launch'}}
+        <span class="text-xs-center" :class="[launchDetails.tbddate ? 'launch-unconfirmed' : 'launch-confirmed']">
+          {{ launchDetails.tbddate ? 'Launch Date Unconfirmed' : 'Go for Launch'}}
         </span>
       </div>
       <div class="countdown">
-        <Countdown :eventTime="netstamp" />
+        <Countdown :eventTime="launchDetails.netstamp" />
       </div>
       <v-divider />
 
@@ -60,11 +60,11 @@
         <v-tab-item>
           <v-container grid-list-xl>
             <v-layout row wrap>
-              <v-flex v-if="missions.length < 1">
+              <v-flex v-if="launchDetails.missions.length < 1">
                 <v-card height="100%">
                   <v-toolbar card>
                     <v-toolbar-title>
-                      Misson {{ 1 }} - {{ name | missionName }}
+                      Misson {{ 1 }} - {{ launchDetails.name | missionName }}
                     </v-toolbar-title>
                   </v-toolbar>
                   <v-card-text>
@@ -73,7 +73,7 @@
                 </v-card>
               </v-flex>
               <v-flex
-                v-for="(mission, n) in missions"
+                v-for="(mission, n) in launchDetails.missions"
                 :key="mission.id">
                 <v-card height="100%">
                   <v-toolbar card>
@@ -97,7 +97,7 @@
                 <v-card>
                   <v-toolbar>
                     <v-toolbar-title>
-                      {{ lsp.name }}
+                      {{ launchDetails.lsp.name }}
                     </v-toolbar-title>
                   </v-toolbar>
 
@@ -109,7 +109,7 @@
                     <v-btn
                       :href="info"
                       target="_blank"
-                      v-for="info in lsp.infoURLs"
+                      v-for="info in launchDetails.lsp.infoURLs"
                       :key="info"
                     >
                       {{ info | infoUrlName }}
@@ -146,46 +146,10 @@ import moment from 'moment'
 
 export default {
   components: {
-    Countdown: () => import('@/components/Countdown/Index')
+    Countdown: () => import('@/components/Countdown')
   },
   props: {
-    id: {
-      type: Number,
-      required: true
-    },
-    name: {
-      type: String,
-      required: true
-    },
-    location: {
-      type: String,
-      required: true
-    },
-    net: {
-      type: String,
-      required: true
-    },
-    netstamp: {
-      type: Number,
-      required: true
-    },
-    missions: {
-      type: Array,
-      required: true
-    },
-    imageUrl: {
-      type: String,
-      required: true
-    },
-    imageSizes: {
-      type: Array,
-      required: true
-    },
-    tbddate: {
-      type: Number,
-      required: true
-    },
-    lsp: {
+    launchDetails: {
       type: Object,
       required: true
     }
@@ -218,13 +182,13 @@ export default {
   },
   computed: {
     title () {
-      return `${this.lsp.name} | ${this.name.split('|')[0]}`
+      return `${this.launchDetails.lsp.name} | ${this.launchDetails.name.split('|')[0]}`
     },
     resizedImgUrl () {
-      let size = this.imageSizes.reduce((prev, curr) => {
+      let size = this.launchDetails.rocket.imageSizes.reduce((prev, curr) => {
         return prev >= this.windowSize.x ? prev : curr <= this.windowSize.x ? curr : prev
       })
-      let resizedImgUrl = this.imageUrl.replace(/(_)(\d+)(.)/, `$1${size}$3`)
+      let resizedImgUrl = this.launchDetails.rocket.imageURL.replace(/(_)(\d+)(.)/, `$1${size}$3`)
       return resizedImgUrl
     }
   },

@@ -89,7 +89,7 @@ import { mapGetters, mapActions } from 'vuex'
 
 export default {
   components: {
-    LaunchCard: () => import('@/components/LaunchCard/Index')
+    LaunchCard: () => import('@/components/LaunchCard')
   },
   computed: {
     ...mapGetters(['loading', 'loadingButton', 'launches', 'viewMode'])
