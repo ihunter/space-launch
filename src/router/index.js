@@ -17,6 +17,12 @@ export default new Router({
       name: 'launch',
       component: () => import(/* webpackChunkName: "launch" */ '@/views/LaunchDetails'),
       props: true
+    },
+    {
+      path: '*',
+      name: '404',
+      component: () => import(/* webpackChunkName: "404" */ '@/views/404'),
+      props: true
     }
   ]
 })
