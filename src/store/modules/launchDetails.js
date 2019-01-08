@@ -16,15 +16,14 @@ export default {
   },
   actions: {
     async fetchLaunchDetails ({ commit }, payload) {
-      commit('setLoading', true)
       try {
+        commit('setLoading', true)
         const { launches } = (await axios.get(`https://launchlibrary.net/1.4/launch/${payload}`)).data
         commit('setLaunchDetails', launches[0])
       } catch (error) {
         console.error(error)
-      } finally {
-        commit('setLoading', false)
       }
+      commit('setLoading', false)
     }
   }
 }

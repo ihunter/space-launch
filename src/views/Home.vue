@@ -1,6 +1,12 @@
 <template>
-  <v-container grid-list-lg v-scroll="onScroll">
-    <template v-if="viewMode">
+  <v-container grid-list-lg v-scroll="onScroll" v-if="!loading">
+    <template v-if="launches.length === 0">
+      <v-layout justify-center align-center>
+        <h1>No Launches :(</h1>
+      </v-layout>
+    </template>
+
+    <template v-else-if="viewMode">
       <v-layout justify-center row wrap>
         <v-flex xs12 md6 lg4 v-for="launch in launches" :key="launch.id">
           <LaunchCard
@@ -22,7 +28,7 @@
           <v-btn
             block
             large
-            :loading="loading"
+            :loading="loadingButton"
             @click="loadMoreLaunches"
           >
             Load More
@@ -53,7 +59,7 @@
           <v-btn
             block
             large
-            :loading="loading"
+            :loading="loadingButton"
             @click="loadMoreLaunches"
           >
             Load More
@@ -86,7 +92,7 @@ export default {
     LaunchCard: () => import('@/components/LaunchCard/Index')
   },
   computed: {
-    ...mapGetters(['launches', 'loading', 'viewMode'])
+    ...mapGetters(['loading', 'loadingButton', 'launches', 'viewMode'])
   },
   data () {
     return {
@@ -94,13 +100,16 @@ export default {
     }
   },
   methods: {
-    ...mapActions(['loadMoreLaunches']),
+    ...mapActions(['loadLaunches', 'loadMoreLaunches']),
     onScroll (e) {
       this.offsetTop = window.pageYOffset || document.documentElement.scrollTop
     },
     scrollToTop () {
       this.$vuetify.goTo(0)
     }
+  },
+  created () {
+    this.loadLaunches()
   }
 }
 </script>

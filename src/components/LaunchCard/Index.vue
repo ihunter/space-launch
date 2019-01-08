@@ -1,5 +1,5 @@
 <template>
-  <v-card height="100%" hover :to="`launch/${id}`">
+  <v-card height="100%" hover :to="{ name: 'launch', params: { id: id.toString() }}">
     <v-toolbar card extended>
       <h3>{{ title }}</h3>
       <div slot="extension" class="toolbar-extension">

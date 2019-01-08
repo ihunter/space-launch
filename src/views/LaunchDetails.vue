@@ -2,7 +2,8 @@
   <v-container>
     <v-layout justify-center>
       <v-flex xs12 md10 lg8>
-        <launch-details-card
+        <LaunchDetailsCard
+          v-if="!loading"
           :id="launchDetails.id"
           :name="launchDetails.name"
           :location="launchDetails.location.name"
@@ -32,11 +33,11 @@ export default {
       required: true
     }
   },
-  mounted () {
+  created () {
     this.fetchLaunchDetails(this.id)
   },
   computed: {
-    ...mapGetters(['launchDetails'])
+    ...mapGetters(['loading', 'launchDetails'])
   },
   methods: {
     ...mapActions(['fetchLaunchDetails'])

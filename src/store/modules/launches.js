@@ -98,8 +98,8 @@ export default {
     }
   },
   actions: {
-    async loadLaunches ({ commit, dispatch, getters }) {
-      dispatch('setLoading', true)
+    async loadLaunches ({ commit, getters }) {
+      commit('setLoading', true)
       commit('setPagination', 1)
       const filteredAgencies = getters.filteredAgencies
       const limit = getters.limit
@@ -136,11 +136,11 @@ export default {
       } catch (e) {
         console.error(e)
       } finally {
-        dispatch('setLoading', false)
+        commit('setLoading', false)
       }
     },
-    async loadMoreLaunches ({ commit, dispatch, getters }) {
-      dispatch('setLoading', true)
+    async loadMoreLaunches ({ commit, getters }) {
+      commit('setLoadingButton', true)
       commit('setPagination', getters.pagination + 1)
       const filteredAgencies = getters.filteredAgencies
       const limit = getters.limit
@@ -181,7 +181,7 @@ export default {
       } catch (e) {
         console.error(e)
       } finally {
-        dispatch('setLoading', false)
+        commit('setLoadingButton', false)
       }
     }
   }

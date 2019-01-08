@@ -218,7 +218,7 @@ export default {
   },
   computed: {
     title () {
-      return `${this.lsp} | ${this.name.split('|')[0]}`
+      return `${this.lsp.name} | ${this.name.split('|')[0]}`
     },
     resizedImgUrl () {
       let size = this.imageSizes.reduce((prev, curr) => {

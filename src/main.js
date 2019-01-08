@@ -11,7 +11,6 @@ new Vue({
   store,
   render: h => h(App),
   created () {
-    this.$store.dispatch('loadLaunches')
     this.$store.dispatch('updateTime')
   }
 }).$mount('#app')

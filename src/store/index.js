@@ -1,25 +1,21 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import moment from 'moment'
-import createPersistedState from 'vuex-persistedstate'
+// import createPersistedState from 'vuex-persistedstate'
 
-import launches from './launches'
-import launchDetails from './launchDetails'
-import loading from './loading'
+import loading from './modules/loading'
+import time from './modules/time'
+import launches from './modules/launches'
+import launchDetails from './modules/launchDetails'
 
 Vue.use(Vuex)
 
 export default new Vuex.Store({
-  plugins: [createPersistedState()],
+  // plugins: [createPersistedState()],
   state: {
-    currentTime: moment().unix(),
-    darkMode: false,
-    viewMode: false
+    darkMode: true,
+    viewMode: true
   },
   getters: {
-    currentTime (state) {
-      return state.currentTime
-    },
     darkMode (state) {
       return state.darkMode
     },
@@ -28,9 +24,6 @@ export default new Vuex.Store({
     }
   },
   mutations: {
-    updateTime (state) {
-      state.currentTime = moment().unix()
-    },
     toggleDarkMode (state) {
       state.darkMode = !state.darkMode
     },
@@ -38,16 +31,10 @@ export default new Vuex.Store({
       state.viewMode = !state.viewMode
     }
   },
-  actions: {
-    updateTime ({ commit }) {
-      setInterval(() => {
-        commit('updateTime')
-      }, 1000)
-    }
-  },
   modules: {
+    loading,
+    time,
     launches,
-    launchDetails,
-    loading
+    launchDetails
   }
 })
