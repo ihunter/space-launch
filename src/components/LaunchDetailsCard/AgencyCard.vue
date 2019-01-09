@@ -10,7 +10,7 @@
           </v-toolbar>
 
           <v-card-text>
-            Lorem ipsum dolor sit amet consectetur, adipisicing elit. Voluptatum sit, deserunt amet dolores ipsam est ipsum sapiente iste at tempore. Voluptate eaque inventore officiis eius, aliquid eos soluta dicta nesciunt.
+            {{ getAgencyById(lsp.id).description }}
           </v-card-text>
 
           <v-card-actions>
@@ -32,6 +32,8 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
+
 import parse from 'url-parse'
 
 export default {
@@ -54,6 +56,9 @@ export default {
       if (host === 'twitter') return '#00ACEE'
       if (host === 'instagram') return '#FBAD50'
     }
+  },
+  computed: {
+    ...mapGetters(['getAgencyById'])
   }
 }
 </script>

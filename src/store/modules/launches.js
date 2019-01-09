@@ -6,58 +6,7 @@ export default {
     limit: 6,
     pagination: 0,
     launches: {},
-    hideTBA: false,
-    agencies: [
-      {
-        id: 88,
-        name: 'China Aerospace Science and Technology Corporation',
-        countryCode: 'CHN',
-        abbrev: 'CASC',
-        enabled: false
-      },
-      {
-        id: 121,
-        name: 'SpaceX',
-        countryCode: 'USA',
-        abbrev: 'SpX',
-        enabled: true
-      },
-      {
-        id: 63,
-        name: 'Russian Federal Space Agency (ROSCOSMOS)',
-        countryCode: 'RUS',
-        abbrev: 'RFSA',
-        enabled: false
-      },
-      {
-        id: 124,
-        name: 'United Launch Alliance',
-        countryCode: 'USA',
-        abbrev: 'ULA',
-        enabled: true
-      },
-      {
-        id: 115,
-        name: 'Arianespace',
-        countryCode: 'FRA',
-        abbrev: 'ASA',
-        enabled: false
-      },
-      {
-        id: 44,
-        name: 'National Aeronautics and Space Administration',
-        countryCode: 'USA',
-        abbrev: 'NASA',
-        enabled: false
-      },
-      {
-        id: 31,
-        name: 'Indian Space Research Organization',
-        countryCode: 'IND',
-        abbrev: 'ISRO',
-        enabled: false
-      }
-    ]
+    hideTBA: false
   },
   getters: {
     limit (state) {
@@ -66,14 +15,8 @@ export default {
     pagination (state) {
       return state.pagination
     },
-    agencies (state) {
-      return state.agencies
-    },
     hideTBA (state) {
       return state.hideTBA
-    },
-    filteredAgencies (state) {
-      return state.agencies.filter(agency => agency.enabled)
     },
     launches (state) {
       return state.launches.launches

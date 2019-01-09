@@ -6,6 +6,7 @@ import loading from './modules/loading'
 import time from './modules/time'
 import launches from './modules/launches'
 import launchDetails from './modules/launchDetails'
+import agencies from './modules/agencies'
 
 Vue.use(Vuex)
 
@@ -35,6 +36,7 @@ export default new Vuex.Store({
     loading,
     time,
     launches,
-    launchDetails
+    launchDetails,
+    agencies
   }
 })
