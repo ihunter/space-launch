@@ -58,83 +58,19 @@
         </v-tab>
 
         <v-tab-item>
-          <v-container grid-list-xl>
-            <v-layout row wrap>
-              <v-flex v-if="launchDetails.missions.length < 1">
-                <v-card height="100%">
-                  <v-toolbar card>
-                    <v-toolbar-title>
-                      Misson {{ 1 }} - {{ launchDetails.name | missionName }}
-                    </v-toolbar-title>
-                  </v-toolbar>
-                  <v-card-text>
-                    Unknown Mission Description
-                  </v-card-text>
-                </v-card>
-              </v-flex>
-              <v-flex
-                v-for="(mission, n) in launchDetails.missions"
-                :key="mission.id">
-                <v-card height="100%">
-                  <v-toolbar card>
-                    <v-toolbar-title>
-                      Misson {{ n + 1 }} - {{ mission.name }}
-                    </v-toolbar-title>
-                  </v-toolbar>
-                  <v-card-text>
-                    {{ mission.description }}
-                  </v-card-text>
-                </v-card>
-              </v-flex>
-            </v-layout>
-          </v-container>
+          <MissionCard :missions="launchDetails.missions" />
         </v-tab-item>
 
         <v-tab-item>
-          <v-container>
-            <v-layout>
-              <v-flex>
-                <v-card>
-                  <v-toolbar>
-                    <v-toolbar-title>
-                      {{ launchDetails.lsp.name }}
-                    </v-toolbar-title>
-                  </v-toolbar>
-
-                  <v-card-text>
-                    Lorem ipsum dolor sit amet consectetur, adipisicing elit. Voluptatum sit, deserunt amet dolores ipsam est ipsum sapiente iste at tempore. Voluptate eaque inventore officiis eius, aliquid eos soluta dicta nesciunt.
-                  </v-card-text>
-
-                  <v-card-actions>
-                    <v-btn
-                      :href="info"
-                      target="_blank"
-                      v-for="info in launchDetails.lsp.infoURLs"
-                      :key="info"
-                    >
-                      {{ info | infoUrlName }}
-                    </v-btn>
-                  </v-card-actions>
-                </v-card>
-              </v-flex>
-            </v-layout>
-          </v-container>
+          <AgencyCard :lsp="launchDetails.lsp" />
         </v-tab-item>
 
         <v-tab-item>
-          <v-card flat>
-            <v-card-text>
-              Rocket
-            </v-card-text>
-          </v-card>
+          <RocketCard :rocket="launchDetails.rocket" />
         </v-tab-item>
 
         <v-tab-item>
-          <v-card flat>
-            <v-card-text>
-              Location
-            </v-card-text>
-          </v-card>
+          <LocationCard :location="launchDetails.location" />
         </v-tab-item>
       </v-tabs>
     </v-card-text>
@@ -146,7 +82,11 @@ import moment from 'moment'
 
 export default {
   components: {
-    Countdown: () => import('@/components/Countdown')
+    Countdown: () => import('@/components/Countdown'),
+    MissionCard: () => import('./MissionCard'),
+    AgencyCard: () => import('./AgencyCard'),
+    RocketCard: () => import('./RocketCard'),
+    LocationCard: () => import('./LocationCard')
   },
   props: {
     launchDetails: {
@@ -157,12 +97,6 @@ export default {
   filters: {
     calendar (net) {
       return moment(net, 'MMMM D, YYYY HH:mm:ss Z').format('MMMM D, YYYY, h:mm A')
-    },
-    missionName (name) {
-      return name.split('|')[1]
-    },
-    infoUrlName (infoUrl) {
-      return infoUrl.match(/(\w+-*\w*).(com|net|org|gov)/)[1]
     }
   },
   data () {
