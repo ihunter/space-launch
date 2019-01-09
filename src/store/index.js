@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-// import createPersistedState from 'vuex-persistedstate'
+import createPersistedState from 'vuex-persistedstate'
 
 import loading from './modules/loading'
 import time from './modules/time'
@@ -10,7 +10,7 @@ import launchDetails from './modules/launchDetails'
 Vue.use(Vuex)
 
 export default new Vuex.Store({
-  // plugins: [createPersistedState()],
+  plugins: [createPersistedState()],
   state: {
     darkMode: true,
     viewMode: true

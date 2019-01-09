@@ -10,11 +10,14 @@
           </v-toolbar>
           <v-card-text>
             <GmapMap
+              class="gmap"
               :center="{ lat: pad.latitude, lng: pad.longitude }"
-              :zoom="5"
-              map-type-id="terrain"
-              style="width: 100%; height: 300px"
+              :zoom="7"
             >
+              <GmapMarker
+                :position="{ lat: pad.latitude, lng: pad.longitude }"
+              >
+              </GmapMarker>
             </GmapMap>
           </v-card-text>
         </v-card>
@@ -34,6 +37,9 @@ export default {
 }
 </script>
 
-<style>
-
+<style scoped>
+.gmap {
+  width: 100%;
+  height: 500px
+}
 </style>
