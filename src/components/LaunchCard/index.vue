@@ -1,11 +1,11 @@
 <template>
   <v-card height="100%" hover :to="{ name: 'launch', params: { id: id.toString() }}">
-    <v-toolbar card extended>
-      <h3>{{ title }}</h3>
-      <div slot="extension" class="toolbar-extension">
+    <v-toolbar card height="100%">
+      <v-toolbar-title class="toolbar__title">
+        <p>{{ title }}</p>
         <p>{{ location }}</p>
         <p>{{ net | calendar }}</p>
-      </div>
+      </v-toolbar-title>
     </v-toolbar>
 
     <v-img
@@ -33,7 +33,7 @@
     <v-card-text>
       <v-divider />
       <div class="test-flex">
-        <span class="text-xs-center" :class="[tbddate ? 'launch-unconfirmed' : 'launch-confirmed']">
+        <span class="text-xs-center launch-chip" :class="[tbddate ? 'launch-unconfirmed' : 'launch-confirmed']">
           {{ tbddate ? 'Launch Date Unconfirmed' : 'Go for Launch'}}
         </span>
       </div>
@@ -45,14 +45,14 @@
         <v-list-tile v-for="mission in missions" :key="mission.id">
           <v-list-tile-content>
             <v-list-tile-title>{{ mission.name }}</v-list-tile-title>
-            <v-list-tile-sub-title>{{ mission.description }}</v-list-tile-sub-title>
+            <v-list-tile-sub-title><span class="mission-description">{{ mission.description }}</span></v-list-tile-sub-title>
           </v-list-tile-content>
         </v-list-tile>
 
         <v-list-tile v-if="missions.length < 1">
           <v-list-tile-content>
             <v-list-tile-title>{{ name | missionName }}</v-list-tile-title>
-            <v-list-tile-sub-title>Unknown Mission Description</v-list-tile-sub-title>
+            <v-list-tile-sub-title><span class="mission-description">Unknown Mission Description</span></v-list-tile-sub-title>
           </v-list-tile-content>
         </v-list-tile>
       </v-list>
@@ -160,29 +160,30 @@ export default {
 </script>
 
 <style scoped>
-.toolbar-extension p {
+.toolbar__title p {
   padding: 0;
   margin: 0;
 }
 
-.launch-confirmed {
-  padding: 5px 10px;
-  color: white;
-  border-radius: 15px;
-  box-shadow: 0 3px 5px #aaaaaa;
-  background-color: green;
-  position: relative;
-  top: -15px;
-
+.toolbar__title p:not(:first-child) {
+  font-size: 0.8em;
 }
-.launch-unconfirmed {
+
+.launch-chip {
   padding: 5px 10px;
+  margin-top: 10px;
   color: white;
   border-radius: 15px;
   box-shadow: 0 3px 5px #aaaaaa;
+  font-size: 1.5em;
+}
+
+.launch-confirmed {
+  background-color: green;
+}
+
+.launch-unconfirmed {
   background-color: red;
-  position: relative;
-  top: -15px;
 }
 
 .countdown {
@@ -195,5 +196,9 @@ export default {
   justify-content: center;
   margin: 0;
   padding: 0;
+}
+
+.mission-description {
+  font-size: 1.2em
 }
 </style>

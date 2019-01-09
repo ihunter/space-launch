@@ -1,7 +1,7 @@
 <template>
   <v-container>
     <v-layout justify-center>
-      <v-flex xs12 md10 lg8>
+      <v-flex xs12 md10 lg6>
         <LaunchDetailsCard
           v-if="!loading"
           :launchDetails="launchDetails"

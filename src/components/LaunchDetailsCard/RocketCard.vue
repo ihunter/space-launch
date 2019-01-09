@@ -1,5 +1,5 @@
 <template>
-  <v-container grid-list-xl>
+  <v-container>
     <v-layout>
       <v-flex>
         <v-card>
@@ -12,8 +12,8 @@
           <v-card-text>
             <p>Family: {{ rocket.familyname }}</p>
             <p>Configuration: {{ rocket.configuration }}</p>
-            <p>Wiki: <a :href="rocket.wikiURL" target="_blank">{{ rocket.wikiURL }}</a></p>
-            <p>Info: <a :href="rocket.infoURL" target="_blank">{{ rocket.infoURL }}</a></p>
+            <p><a :href="rocket.wikiURL" target="_blank">Wiki</a></p>
+            <p><a :href="rocket.infoURL" target="_blank">Info</a></p>
           </v-card-text>
 
         </v-card>

@@ -7,8 +7,8 @@
     </template>
 
     <template v-else-if="viewMode">
-      <v-layout justify-center row wrap>
-        <v-flex xs12 md6 lg4 v-for="launch in launches" :key="launch.id">
+      <v-layout row wrap>
+        <v-flex xs12 md6 lg3 v-for="launch in launches" :key="launch.id">
           <LaunchCard
             :id="launch.id"
             :name="launch.name"

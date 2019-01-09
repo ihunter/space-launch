@@ -1,16 +1,16 @@
 <template>
   <v-card height="100%">
-    <v-toolbar card extended>
-      <h3>{{ title }}</h3>
-      <div slot="extension" class="toolbar-extension">
+    <v-toolbar card height="100%">
+      <v-toolbar-title class="toolbar__title">
+        <p>{{ title }}</p>
         <p>{{ launchDetails.location.name }}</p>
         <p>{{ launchDetails.net | calendar }}</p>
-      </div>
+      </v-toolbar-title>
     </v-toolbar>
 
     <v-img
       contain
-      aspect-ratio="1.5"
+      aspect-ratio="2"
       position="center top"
       v-if="intersected"
       v-resize="onResize"
@@ -31,49 +31,47 @@
       </v-layout>
     </v-img>
 
-    <v-card-text>
-      <v-divider />
-      <div class="test-flex">
-        <span class="text-xs-center" :class="[launchDetails.tbddate ? 'launch-unconfirmed' : 'launch-confirmed']">
-          {{ launchDetails.tbddate ? 'Launch Date Unconfirmed' : 'Go for Launch'}}
-        </span>
-      </div>
-      <div class="countdown">
-        <Countdown :eventTime="launchDetails.netstamp" />
-      </div>
-      <v-divider />
+    <v-divider />
+    <div class="test-flex">
+      <span class="text-xs-center launch-chip" :class="[launchDetails.tbddate ? 'launch-unconfirmed' : 'launch-confirmed']">
+        {{ launchDetails.tbddate ? 'Launch Date Unconfirmed' : 'Go for Launch'}}
+      </span>
+    </div>
+    <div class="countdown">
+      <Countdown :eventTime="launchDetails.netstamp" />
+    </div>
+    <v-divider />
 
-      <v-tabs grow>
-        <v-tab>
-          Misson
-        </v-tab>
-        <v-tab>
-          Agency
-        </v-tab>
-        <v-tab>
-          Rocket
-        </v-tab>
-        <v-tab>
-          Location
-        </v-tab>
+    <v-tabs grow>
+      <v-tab>
+        Misson
+      </v-tab>
+      <v-tab>
+        Agency
+      </v-tab>
+      <v-tab>
+        Rocket
+      </v-tab>
+      <v-tab>
+        Location
+      </v-tab>
 
-        <v-tab-item>
-          <MissionCard :missions="launchDetails.missions" />
-        </v-tab-item>
+      <v-tab-item>
+        <MissionCard :missions="launchDetails.missions" />
+      </v-tab-item>
 
-        <v-tab-item>
-          <AgencyCard :lsp="launchDetails.lsp" />
-        </v-tab-item>
+      <v-tab-item>
+        <AgencyCard :lsp="launchDetails.lsp" />
+      </v-tab-item>
 
-        <v-tab-item>
-          <RocketCard :rocket="launchDetails.rocket" />
-        </v-tab-item>
+      <v-tab-item>
+        <RocketCard :rocket="launchDetails.rocket" />
+      </v-tab-item>
 
-        <v-tab-item>
-          <LocationCard :location="launchDetails.location" />
-        </v-tab-item>
-      </v-tabs>
-    </v-card-text>
+      <v-tab-item>
+        <LocationCard :location="launchDetails.location" />
+      </v-tab-item>
+    </v-tabs>
   </v-card>
 </template>
 
@@ -142,29 +140,30 @@ export default {
 </script>
 
 <style scoped>
-.toolbar-extension p {
+.toolbar__title p {
   padding: 0;
   margin: 0;
 }
 
-.launch-confirmed {
-  padding: 5px 10px;
-  color: white;
-  border-radius: 15px;
-  box-shadow: 0 3px 5px #aaaaaa;
-  background-color: green;
-  position: relative;
-  top: -15px;
-
+.toolbar__title p:not(:first-child) {
+  font-size: 0.8em;
 }
-.launch-unconfirmed {
+
+.launch-chip {
   padding: 5px 10px;
+  margin-top: 10px;
   color: white;
   border-radius: 15px;
   box-shadow: 0 3px 5px #aaaaaa;
+  font-size: 1.5em;
+}
+
+.launch-confirmed {
+  background-color: green;
+}
+
+.launch-unconfirmed {
   background-color: red;
-  position: relative;
-  top: -15px;
 }
 
 .countdown {

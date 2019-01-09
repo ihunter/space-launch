@@ -1,7 +1,12 @@
 <template>
   <v-app :dark="darkMode">
     <v-navigation-drawer app temporary v-model="drawer">
-      <v-img src="https://cdn.vuetifyjs.com/images/cards/desert.jpg"></v-img>
+      <v-img
+        contain
+        aspect-ratio="1.5"
+        :src="navicon"
+      >
+      </v-img>
       <v-list>
         <v-list-tile to="/">
           <v-list-tile-action>
@@ -107,7 +112,8 @@ export default {
     return {
       drawer: false,
       settings: false,
-      filters: []
+      filters: [],
+      navicon: require('@/assets/icon.png')
     }
   },
   methods: {

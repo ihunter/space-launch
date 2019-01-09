@@ -1,5 +1,5 @@
 <template>
-  <v-container grid-list-xl>
+  <v-container>
     <v-layout>
       <v-flex v-for="pad in location.pads" :key="pad.id">
         <v-card height="100%">
@@ -8,18 +8,17 @@
               {{ pad.name }}
             </v-toolbar-title>
           </v-toolbar>
-          <v-card-text>
-            <GmapMap
-              class="gmap"
-              :center="{ lat: pad.latitude, lng: pad.longitude }"
-              :zoom="7"
+
+          <GmapMap
+            class="gmap"
+            :center="{ lat: pad.latitude, lng: pad.longitude }"
+            :zoom="7"
+          >
+            <GmapMarker
+              :position="{ lat: pad.latitude, lng: pad.longitude }"
             >
-              <GmapMarker
-                :position="{ lat: pad.latitude, lng: pad.longitude }"
-              >
-              </GmapMarker>
-            </GmapMap>
-          </v-card-text>
+            </GmapMarker>
+          </GmapMap>
         </v-card>
       </v-flex>
     </v-layout>
@@ -40,6 +39,6 @@ export default {
 <style scoped>
 .gmap {
   width: 100%;
-  height: 500px
+  height: 300px
 }
 </style>

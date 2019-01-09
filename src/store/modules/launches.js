@@ -3,7 +3,7 @@ import moment from 'moment'
 
 export default {
   state: {
-    limit: 6,
+    limit: 8,
     pagination: 0,
     launches: {},
     hideTBA: false

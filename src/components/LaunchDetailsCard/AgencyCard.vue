@@ -1,5 +1,5 @@
 <template>
-  <v-container grid-list-xl>
+  <v-container grid-list-sm>
     <v-layout>
       <v-flex>
         <v-card>
@@ -14,16 +14,18 @@
           </v-card-text>
 
           <v-card-actions>
-            <v-btn
-              block
-              :color="buttonColor(url)"
-              :href="url"
-              target="_blank"
-              v-for="url in lsp.infoURLs"
-              :key="url"
-            >
-              {{ url | infoUrlName }}
-            </v-btn>
+            <v-layout row wrap>
+              <v-flex v-for="url in lsp.infoURLs" :key="url">
+                <v-btn
+                  block
+                  :color="buttonColor(url)"
+                  :href="url"
+                  target="_blank"
+                >
+                  {{ url | infoUrlName }}
+                </v-btn>
+              </v-flex>
+            </v-layout>
           </v-card-actions>
         </v-card>
       </v-flex>
