@@ -1,25 +1,17 @@
-// The Vue build version to load with the `import` command
-// (runtime-only or standalone) has been set in webpack.base.conf with an alias.
 import Vue from 'vue'
-import App from './App'
+import './plugins/vuetify'
+import './plugins/vue2-google-maps'
+import App from './App.vue'
 import router from './router'
-import Vuetify from 'vuetify'
-import 'vuetify/dist/vuetify.min.css'
 import store from './store'
-
-Vue.use(Vuetify)
 
 Vue.config.productionTip = false
 
-/* eslint-disable no-new */
 new Vue({
-  el: '#app',
   router,
   store,
-  components: { App },
-  template: '<App/>',
+  render: h => h(App),
   created () {
-    this.$store.dispatch('getLaunches')
-    this.$store.dispatch('loadAgencies')
+    this.$store.dispatch('updateTime')
   }
-})
+}).$mount('#app')
