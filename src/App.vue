@@ -84,7 +84,7 @@
         </v-card>
       </v-dialog>
 
-      <v-menu>
+      <v-menu left transition="slide-x-reverse-transition">
         <v-btn icon slot="activator">
           <v-icon>more_vert</v-icon>
         </v-btn>
