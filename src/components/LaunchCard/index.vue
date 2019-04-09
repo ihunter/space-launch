@@ -111,7 +111,7 @@ export default {
   },
   filters: {
     calendar (net) {
-      return moment(net, 'MMMM D, YYYY HH:mm:ss Z').format('MMMM D, YYYY, h:mm A')
+      return moment.utc(net, 'MMMM D, YYYY HH:mm:ss UTC').local().format('MMMM D, YYYY, h:mm A')
     },
     missionName (name) {
       return name.split('|')[1]
