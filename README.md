@@ -1,4 +1,4 @@
-# space-launch-vue-cli-3
+# space-launch
 
 ## Project setup
 ```

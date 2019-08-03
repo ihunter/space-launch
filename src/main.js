@@ -1,17 +1,13 @@
 import Vue from 'vue'
-import './plugins/vuetify'
-import './plugins/vue2-google-maps'
 import App from './App.vue'
 import router from './router'
 import store from './store'
+import './registerServiceWorker'
 
 Vue.config.productionTip = false
 
 new Vue({
   router,
   store,
-  render: h => h(App),
-  created () {
-    this.$store.dispatch('updateTime')
-  }
+  render: h => h(App)
 }).$mount('#app')
