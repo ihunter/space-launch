@@ -1,7 +1,7 @@
 <template>
   <!-- App.vue -->
   <v-app>
-    <v-navigation-drawer app clipped>
+    <v-navigation-drawer app clipped v-model="drawer">
       <!-- -->
     </v-navigation-drawer>
 
@@ -28,6 +28,11 @@
 
 <script>
 export default {
-  name: 'App'
+  name: 'App',
+  data () {
+    return {
+      drawer: false
+    }
+  }
 }
 </script>
