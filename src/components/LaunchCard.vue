@@ -1,6 +1,6 @@
 <template>
   <v-card class="mt-8">
-    <v-toolbar height="auto" class="toolbar-top-offset mx-4" color="red" dark>
+    <v-toolbar height="auto" class="toolbar-top-offset mx-4" color="green" dark>
       <v-container fluid grid-list-xl>
         <v-layout v-bind="binding" align-center>
 
@@ -11,11 +11,11 @@
           </v-flex>
 
           <v-flex shrink fill-height>
-            <div class="launch-info">
-              <h3>Falcon 9 Block 5 | Amos-17</h3>
-              <p>SpaceX | USA</p>
-              <p>Cape Canaveral, FL, USA</p>
-              <p>Aug. 5, 2019, 6:52 p.m.</p>
+            <div class="launch-info" v-if="!loading">
+              <h3>{{ launch.name }}</h3>
+              <p>{{ launch.lsp.name }} | {{ launch.lsp.countryCode }}</p>
+              <p>{{ launch.location.name }}</p>
+              <p>{{ launch.netstamp | date }}</p>
             </div>
           </v-flex>
         </v-layout>
@@ -24,12 +24,12 @@
 
     <v-divider></v-divider>
 
-    <v-list>
+    <v-list v-if="!loading">
       <v-list-item>
         <v-list-item-title>Status:</v-list-item-title>
 
         <v-list-item-subtitle>
-          TBD
+          {{ launchStatus }}
         </v-list-item-subtitle>
 
         <v-list-item-icon>
@@ -50,8 +50,8 @@
       </v-list-item>
     </v-list>
 
-    <v-card-text>
-      Amos-17 is a multi-band high-throughput satellite which will operate from 17°E, offering Ka-band, Ku-band, and C-Band services to users in Africa, the Middle East and Europe.
+    <v-card-text v-if="!loading">
+      {{ launch.missions[0].description }}
     </v-card-text>
 
     <v-divider></v-divider>
@@ -66,8 +66,23 @@
 </template>
 
 <script>
+import axios from 'axios'
+import moment from 'moment'
+
 export default {
   name: 'LaunchCard',
+  filters: {
+    date (netstamp) {
+      return moment.unix(netstamp).format('MMM Do, YYYY, h:mm a')
+    }
+  },
+  data () {
+    return {
+      loading: true,
+      launch: {},
+      launchStatuses: []
+    }
+  },
   computed: {
     binding () {
       const binding = {}
@@ -78,6 +93,40 @@ export default {
       }
 
       return binding
+    },
+    launchStatus () {
+      const status = this.launch.status
+      const statusName = this.launchStatuses[status - 1].name
+      return statusName
+    }
+  },
+  async mounted () {
+    try {
+      this.loading = true
+      await this.getLaunch()
+      await this.getLaunchStatuses()
+    } catch (error) {
+      console.error(error)
+    } finally {
+      this.loading = false
+    }
+  },
+  methods: {
+    async getLaunch () {
+      try {
+        const response = await axios.get(`https://launchlibrary.net/1.4.1/launch/1388`)
+        this.launch = response.data.launches.shift()
+      } catch (error) {
+        console.error(error)
+      }
+    },
+    async getLaunchStatuses () {
+      try {
+        const response = await axios.get(`https://launchlibrary.net/1.4.1/launchstatus`)
+        this.launchStatuses = response.data.types
+      } catch (error) {
+        console.error(error)
+      }
     }
   }
 }
@@ -88,7 +137,7 @@ export default {
   top: -20px;
 }
 
-.img-border {
+.img-border img {
   border: 1px solid #cccccc;
 }
 
