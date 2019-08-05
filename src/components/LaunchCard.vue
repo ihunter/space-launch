@@ -1,21 +1,20 @@
 <template>
-  <v-card class="mt-8">
+  <v-card class="my-8" max-width="825">
     <v-toolbar height="auto" class="toolbar-top-offset mx-4" color="green" dark>
       <v-container fluid grid-list-xl>
-        <v-layout v-bind="binding" align-center>
-
+        <v-layout v-bind="binding" align-center class="nowrap">
           <v-flex shrink>
             <v-avatar size="160" class="img-border elevation-16">
               <img src="https://s3.amazonaws.com/launchlibrary/RocketImages/Falcon9Block5.jpg_320.jpg" alt="avatar">
             </v-avatar>
           </v-flex>
 
-          <v-flex shrink fill-height>
-            <div class="launch-info" v-if="!loading">
-              <h3>{{ launch.name }}</h3>
-              <p>{{ launch.lsp.name }} | {{ launch.lsp.countryCode }}</p>
-              <p>{{ launch.location.name }}</p>
-              <p>{{ launch.netstamp | date }}</p>
+          <v-flex>
+            <div class="launch-info">
+              <h3>{{ name }}</h3>
+              <p>{{ lspName }} | {{ 'COUNTRY CODE' }}</p>
+              <p>{{ locationName }}</p>
+              <p>{{ netstamp | date }}</p>
             </div>
           </v-flex>
         </v-layout>
@@ -24,12 +23,12 @@
 
     <v-divider></v-divider>
 
-    <v-list v-if="!loading">
+    <v-list>
       <v-list-item>
         <v-list-item-title>Status:</v-list-item-title>
 
         <v-list-item-subtitle>
-          {{ launchStatus }}
+          {{ "LAUNCH STATUS" }}
         </v-list-item-subtitle>
 
         <v-list-item-icon>
@@ -50,8 +49,8 @@
       </v-list-item>
     </v-list>
 
-    <v-card-text v-if="!loading">
-      {{ launch.missions[0].description }}
+    <v-card-text>
+      {{ missions[0].description }}
     </v-card-text>
 
     <v-divider></v-divider>
@@ -66,7 +65,6 @@
 </template>
 
 <script>
-import axios from 'axios'
 import moment from 'moment'
 
 export default {
@@ -76,11 +74,34 @@ export default {
       return moment.unix(netstamp).format('MMM Do, YYYY, h:mm a')
     }
   },
-  data () {
-    return {
-      loading: true,
-      launch: {},
-      launchStatuses: []
+  props: {
+    name: {
+      type: String,
+      required: true
+    },
+    lspName: {
+      type: String,
+      required: true
+    },
+    locationName: {
+      type: String,
+      required: true
+    },
+    netstamp: {
+      type: Number,
+      required: true
+    },
+    status: {
+      type: Number,
+      required: true
+    },
+    missionTypeName: {
+      type: String,
+      required: true
+    },
+    missions: {
+      type: Array,
+      required: true
     }
   },
   computed: {
@@ -90,51 +111,23 @@ export default {
       if (this.$vuetify.breakpoint.xsOnly) {
         binding.column = true
         binding['text-center'] = true
+      } else {
+        binding.row = true
       }
 
       return binding
-    },
-    launchStatus () {
-      const status = this.launch.status
-      const statusName = this.launchStatuses[status - 1].name
-      return statusName
-    }
-  },
-  async mounted () {
-    try {
-      this.loading = true
-      await this.getLaunch()
-      await this.getLaunchStatuses()
-    } catch (error) {
-      console.error(error)
-    } finally {
-      this.loading = false
-    }
-  },
-  methods: {
-    async getLaunch () {
-      try {
-        const response = await axios.get(`https://launchlibrary.net/1.4.1/launch/1388`)
-        this.launch = response.data.launches.shift()
-      } catch (error) {
-        console.error(error)
-      }
-    },
-    async getLaunchStatuses () {
-      try {
-        const response = await axios.get(`https://launchlibrary.net/1.4.1/launchstatus`)
-        this.launchStatuses = response.data.types
-      } catch (error) {
-        console.error(error)
-      }
     }
   }
 }
 </script>
 
 <style scoped>
+.nowrap {
+  flex-wrap: nowrap;
+}
+
 .toolbar-top-offset {
-  top: -20px;
+  top: -16px;
 }
 
 .img-border img {
