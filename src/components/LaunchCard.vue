@@ -1,11 +1,11 @@
 <template>
   <v-card class="my-8" max-width="825">
-    <v-toolbar height="auto" class="toolbar-top-offset mx-4" color="green" dark>
+    <v-toolbar height="auto" class="toolbar-top-offset mx-4" :color="launchStatus.color" dark>
       <v-container fluid grid-list-xl>
         <v-layout v-bind="binding" align-center class="nowrap">
           <v-flex shrink>
             <v-avatar size="160" class="img-border elevation-16">
-              <img src="https://s3.amazonaws.com/launchlibrary/RocketImages/Falcon9Block5.jpg_320.jpg" alt="avatar">
+              <img :src="rocketImageURL" alt="avatar">
             </v-avatar>
           </v-flex>
 
@@ -28,11 +28,13 @@
         <v-list-item-title>Status:</v-list-item-title>
 
         <v-list-item-subtitle>
-          {{ "LAUNCH STATUS" }}
+          {{ launchStatus.name }}
         </v-list-item-subtitle>
 
         <v-list-item-icon>
-          <v-icon color="red">mdi-close-circle</v-icon>
+          <v-icon :color="launchStatus.color">
+            {{ launchStatus.icon }}
+          </v-icon>
         </v-list-item-icon>
       </v-list-item>
 
@@ -40,11 +42,13 @@
         <v-list-item-title>Mission Type:</v-list-item-title>
 
         <v-list-item-subtitle>
-          Communications
+          {{ missionType.name }}
         </v-list-item-subtitle>
 
         <v-list-item-icon>
-          <v-icon color="blue">mdi-satellite-variant</v-icon>
+          <v-icon :color="missionType.color">
+            {{ missionType.icon }}
+          </v-icon>
         </v-list-item-icon>
       </v-list-item>
     </v-list>
@@ -67,6 +71,8 @@
 <script>
 import moment from 'moment'
 
+import { mapGetters } from 'vuex'
+
 export default {
   name: 'LaunchCard',
   filters: {
@@ -76,6 +82,10 @@ export default {
   },
   props: {
     name: {
+      type: String,
+      required: true
+    },
+    rocketImageURL: {
       type: String,
       required: true
     },
@@ -95,16 +105,14 @@ export default {
       type: Number,
       required: true
     },
-    missionTypeName: {
-      type: String,
-      required: true
-    },
     missions: {
       type: Array,
       required: true
     }
   },
   computed: {
+    ...mapGetters('launchStatuses', ['launchStatuses']),
+    ...mapGetters('missionTypes', ['missionTypes']),
     binding () {
       const binding = {}
 
@@ -116,6 +124,16 @@ export default {
       }
 
       return binding
+    },
+    launchStatus () {
+      return this.launchStatuses.find(type => {
+        return type.id === this.status
+      })
+    },
+    missionType () {
+      return this.missionTypes.find(type => {
+        return type.id === this.missions[0].type
+      })
     }
   }
 }
