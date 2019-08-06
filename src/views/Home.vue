@@ -2,13 +2,7 @@
   <v-container grid-list-xl>
     <v-layout row>
       <v-flex>
-        <v-card>
-          <v-card-title>I'm a title</v-card-title>
-          <v-card-text>I'm card text</v-card-text>
-          <v-card-actions>
-            <v-btn text>Click</v-btn>
-          </v-card-actions>
-        </v-card>
+        <LaunchFilters />
       </v-flex>
 
       <v-flex shrink>
@@ -48,7 +42,8 @@ import { mapGetters, mapActions } from 'vuex'
 export default {
   name: 'Home',
   components: {
-    LaunchCard: () => import('@/components/LaunchCard')
+    LaunchCard: () => import('@/components/LaunchCard'),
+    LaunchFilters: () => import('@/components/LaunchFilters')
   },
   data () {
     return {
@@ -61,6 +56,7 @@ export default {
   async mounted () {
     try {
       this.loading = true
+      await this.getAgencies()
       await this.getMissionTypes()
       await this.getLaunchesStatuses()
       await this.getLaunches()
@@ -73,7 +69,8 @@ export default {
   methods: {
     ...mapActions('launches', ['getLaunches']),
     ...mapActions('launchStatuses', ['getLaunchesStatuses']),
-    ...mapActions('missionTypes', ['getMissionTypes'])
+    ...mapActions('missionTypes', ['getMissionTypes']),
+    ...mapActions('agencies', ['getAgencies'])
   }
 }
 </script>
