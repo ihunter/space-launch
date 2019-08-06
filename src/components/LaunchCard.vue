@@ -1,27 +1,23 @@
 <template>
-  <v-card class="my-8" max-width="825">
+  <v-card max-width="825">
     <v-toolbar height="auto" class="toolbar-top-offset mx-4" :color="launchStatus.color" dark>
-      <v-container fluid grid-list-xl>
-        <v-layout v-bind="binding" align-center class="nowrap">
-          <v-flex shrink>
-            <v-avatar size="160" class="img-border elevation-16">
-              <img :src="rocketImageURL" alt="avatar">
-            </v-avatar>
-          </v-flex>
+      <v-layout v-bind="binding" align-center class="nowrap">
+        <v-flex shrink>
+          <v-avatar size="160" class="img-border elevation-16">
+            <img :src="rocketImageURL" alt="avatar">
+          </v-avatar>
+        </v-flex>
 
-          <v-flex>
-            <div class="launch-info">
-              <h3>{{ name }}</h3>
-              <p>{{ lspName }} | {{ 'COUNTRY CODE' }}</p>
-              <p>{{ locationName }}</p>
-              <p>{{ netstamp | date }}</p>
-            </div>
-          </v-flex>
-        </v-layout>
-      </v-container>
+        <v-flex>
+          <div class="launch-info">
+            <h3>{{ name }}</h3>
+            <p>{{ lsp.name }} | {{ lsp.countryCode }}</p>
+            <p>{{ locationName }}</p>
+            <p>{{ netstamp | date }}</p>
+          </div>
+        </v-flex>
+      </v-layout>
     </v-toolbar>
-
-    <v-divider></v-divider>
 
     <v-list>
       <v-list-item>
@@ -89,8 +85,8 @@ export default {
       type: String,
       required: true
     },
-    lspName: {
-      type: String,
+    lsp: {
+      type: Object,
       required: true
     },
     locationName: {
@@ -145,16 +141,11 @@ export default {
 }
 
 .toolbar-top-offset {
-  top: -16px;
+  top: -32px;
 }
 
 .img-border img {
   border: 1px solid #cccccc;
-}
-
-.launch-info {
-  margin-top: auto;
-  margin-bottom: auto;
 }
 
 .launch-info h3 {

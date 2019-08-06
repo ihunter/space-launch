@@ -1,16 +1,43 @@
 <template>
-  <v-container>
-    <v-layout column align-center>
-      <LaunchCard
-        v-for="launch in launches" :key="launch.id"
-        :name="launch.name"
-        :rocketImageURL="launch.rocket.imageURL"
-        :lspName="launch.lsp.name"
-        :locationName="launch.location.name"
-        :netstamp="launch.netstamp"
-        :status="launch.status"
-        :missions="launch.missions"
-      />
+  <v-container grid-list-xl>
+    <v-layout row>
+      <v-flex>
+        <v-card>
+          <v-card-title>I'm a title</v-card-title>
+          <v-card-text>I'm card text</v-card-text>
+          <v-card-actions>
+            <v-btn text>Click</v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-flex>
+
+      <v-flex shrink>
+        <v-container class="mt-5">
+          <v-layout column>
+            <v-flex v-for="launch in launches" :key="launch.id" class="launch-card-margin">
+              <LaunchCard
+                :name="launch.name"
+                :rocketImageURL="launch.rocket.imageURL"
+                :lsp="launch.lsp"
+                :locationName="launch.location.name"
+                :netstamp="launch.netstamp"
+                :status="launch.status"
+                :missions="launch.missions"
+              />
+            </v-flex>
+          </v-layout>
+        </v-container>
+      </v-flex>
+
+      <v-flex>
+        <v-card>
+          <v-card-title>I'm a title</v-card-title>
+          <v-card-text>I'm card text</v-card-text>
+          <v-card-actions>
+            <v-btn text>Click</v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-flex>
     </v-layout>
   </v-container>
 </template>
@@ -50,3 +77,9 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+.launch-card-margin:not(:last-child) {
+  margin-bottom: 32px;
+}
+</style>
