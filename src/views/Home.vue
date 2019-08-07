@@ -1,8 +1,15 @@
 <template>
   <v-container grid-list-xl>
-    <v-layout row>
-      <v-flex>
-        <LaunchFilters />
+    <v-layout row justify-center>
+      <v-flex shrink>
+        <v-expansion-panels>
+          <v-expansion-panel>
+            <v-expansion-panel-header>Launch Filters</v-expansion-panel-header>
+            <v-expansion-panel-content>
+              <LaunchFilters />
+            </v-expansion-panel-content>
+          </v-expansion-panel>
+        </v-expansion-panels>
       </v-flex>
 
       <v-flex shrink>
@@ -23,7 +30,7 @@
         </v-container>
       </v-flex>
 
-      <v-flex>
+      <v-flex shrink>
         <v-card>
           <v-card-title>I'm a title</v-card-title>
           <v-card-text>I'm card text</v-card-text>

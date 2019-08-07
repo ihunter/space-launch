@@ -1,14 +1,15 @@
 <template>
-  <v-card>
+  <v-card max-width="825" flat>
     <v-container>
-      <v-layout row justify-space-between>
-        <v-switch
-          v-for="agency in agencies" :key="agency.id"
-          v-model="agenciesSelected"
-          :label="agency.name"
-          :value="agency.id"
-          class="mx-2"
-        />
+      <v-layout row>
+        <v-flex v-for="agency in curatedAgencies" :key="agency.id">
+          <v-switch
+            v-model="selectedAgencies"
+            :label="agency.name"
+            :value="agency.id"
+            class="mx-2"
+          />
+        </v-flex>
       </v-layout>
     </v-container>
   </v-card>
@@ -20,12 +21,17 @@ import { mapGetters } from 'vuex'
 export default {
   name: 'LaunchFilters',
   computed: {
-    ...mapGetters('agencies', ['agencies'])
+    ...mapGetters('agencies', ['curatedAgencies'])
   },
   data () {
     return {
       flat: false,
-      agenciesSelected: []
+      selectedAgencies: []
+    }
+  },
+  watch: {
+    selectedAgencies () {
+      this.$store.commit('agencies/setSelectedAgencies', this.selectedAgencies)
     }
   }
 }
