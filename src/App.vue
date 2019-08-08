@@ -36,9 +36,9 @@ export default {
   async created () {
     try {
       this.loading = true
-      await this.getAgencies()
-      await this.getMissionTypes()
       await this.getLaunchesStatuses()
+      await this.getMissionTypes()
+      await this.getAgencies()
     } catch (error) {
       console.error(error)
     } finally {

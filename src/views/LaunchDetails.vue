@@ -1,24 +1,79 @@
 <template>
-  <v-layout fill-height>
-    <v-img
-      src="https://picsum.photos/id/11/500/300"
-      lazy-src="https://picsum.photos/id/11/10/6"
-      gradient="to top right, rgba(100,115,201,.33), rgba(25,32,72,.7)"
-      aspect-ratio="1"
-      class="grey lighten-2"
-      max-height="300"
-    >
-      <v-layout column align-center class="image-content" v-if="!loading">
-        <h1 class="display-1">{{ launch.name }}</h1>
-        <h2 class="headline">{{ status.description }}</h2>
+  <v-layout column v-if="!loading">
+    <v-flex>
+      <v-img
+        :src="launch.rocket.imageURL"
+        lazy-src="https://picsum.photos/id/11/10/6"
+        gradient="to top right, rgba(100,115,201,.33), rgba(25,32,72,.7)"
+        class="grey lighten-2"
+        max-height="80vh"
+      >
+        <v-container fill-height>
+          <v-layout column align-center class="image-content" v-if="!loading">
+            <h1 class="display-1">{{ name }}</h1>
+            <h2 class="headline">{{ status.description }}</h2>
+            <v-spacer></v-spacer>
+            <h3 class="display-2">00 : 00 : 00 : 00</h3>
+            <h4 class="title">{{ launch.netstamp | date }}</h4>
+          </v-layout>
+        </v-container>
+      </v-img>
+    </v-flex>
 
-        <v-divider></v-divider>
+    <v-flex>
+      <v-container>
+        <v-layout column>
+          <v-card max-width="825" class="mt-12">
+            <v-toolbar height="auto" class="toolbar-top-offset mx-4" :color="status.color" dark>
+              <v-layout v-bind="binding" align-center class="nowrap">
+                <v-flex shrink>
+                  <v-avatar size="160" class="img-border elevation-16">
+                    <img :src="launch.rocket.imageURL" alt="avatar">
+                  </v-avatar>
+                </v-flex>
 
-        <h3>00 : 00 : 00 : 00</h3>
+                <v-flex>
+                  <div class="launch-info">
+                    <h3>{{ launch.lsp.name }}</h3>
+                    <p>{{ launch.rocket.name }}</p>
+                  </div>
+                </v-flex>
+              </v-layout>
+            </v-toolbar>
 
-        <h4>{{ launch.netstamp | date }}</h4>
-      </v-layout>
-    </v-img>
+            <v-subheader>Missions</v-subheader>
+
+            <div v-for="mission in launch.missions" :key="mission.id">
+              <v-card-title>{{ mission.name }}</v-card-title>
+
+              <v-card-text>
+                {{ mission.description }}
+              </v-card-text>
+            </div>
+
+            <v-divider></v-divider>
+
+            <v-list>
+              <v-list-item>
+                <v-list-item-title>Launch Vehicle</v-list-item-title>
+
+                <v-list-item-subtitle>
+                  {{ launch.rocket.name }}
+                </v-list-item-subtitle>
+              </v-list-item>
+
+              <v-list-item>
+                <v-list-item-title>Mission Type</v-list-item-title>
+
+                <v-list-item-subtitle>
+                  {{ launch.missions[0].type }}
+                </v-list-item-subtitle>
+              </v-list-item>
+            </v-list>
+          </v-card>
+        </v-layout>
+      </v-container>
+    </v-flex>
   </v-layout>
 </template>
 
@@ -37,7 +92,7 @@ export default {
   },
   filters: {
     date (date) {
-      return moment.unix(date).format('MMMM Do, YYYY - h:mm a')
+      return moment.unix(date).format('MMMM Do, YYYY - h:mm A')
     }
   },
   data () {
@@ -47,9 +102,28 @@ export default {
   },
   computed: {
     ...mapGetters('launches', ['launch']),
-    ...mapGetters('launchStatuses', ['launchStatuses', 'launchStatus']),
+    ...mapGetters('launchStatuses', ['launchStatus']),
     status () {
-      return this.launchStatuses.find(status => status.id === this.launch.status)
+      return this.launchStatus(this.launch.status)
+    },
+    name () {
+      if (this.$vuetify.breakpoint.xsOnly) {
+        return this.launch.name.split('|').pop()
+      }
+
+      return this.launch.name
+    },
+    binding () {
+      const binding = {}
+
+      if (this.$vuetify.breakpoint.xsOnly) {
+        binding.column = true
+        binding['text-center'] = true
+      } else {
+        binding.row = true
+      }
+
+      return binding
     }
   },
   async created () {
@@ -69,7 +143,27 @@ export default {
 </script>
 
 <style scoped>
+.nowrap {
+  flex-wrap: nowrap;
+}
+
 .image-content {
   color: white;
+}
+
+.toolbar-top-offset {
+  top: -32px;
+}
+
+.img-border img {
+  border: 1px solid #cccccc;
+}
+
+.launch-info h3 {
+  margin-bottom: 16px;
+}
+
+.launch-info p {
+  margin-bottom: 0;
 }
 </style>
