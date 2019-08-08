@@ -23,12 +23,32 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex'
+
 export default {
   name: 'App',
   data () {
     return {
-      drawer: false
+      drawer: false,
+      loading: true
     }
+  },
+  async created () {
+    try {
+      this.loading = true
+      await this.getAgencies()
+      await this.getMissionTypes()
+      await this.getLaunchesStatuses()
+    } catch (error) {
+      console.error(error)
+    } finally {
+      this.loading = false
+    }
+  },
+  methods: {
+    ...mapActions('launchStatuses', ['getLaunchesStatuses']),
+    ...mapActions('missionTypes', ['getMissionTypes']),
+    ...mapActions('agencies', ['getAgencies'])
   }
 }
 </script>

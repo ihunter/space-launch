@@ -1,6 +1,6 @@
 <template>
   <v-card max-width="825">
-    <v-toolbar height="auto" class="toolbar-top-offset mx-4" :color="launchStatus.color" dark>
+    <v-toolbar height="auto" class="toolbar-top-offset mx-4" :color="status.color" dark>
       <v-layout v-bind="binding" align-center class="nowrap">
         <v-flex shrink>
           <v-avatar size="160" class="img-border elevation-16">
@@ -24,12 +24,12 @@
         <v-list-item-title>Status:</v-list-item-title>
 
         <v-list-item-subtitle>
-          {{ launchStatus.name }}
+          {{ status.name }}
         </v-list-item-subtitle>
 
         <v-list-item-icon>
-          <v-icon :color="launchStatus.color">
-            {{ launchStatus.icon }}
+          <v-icon :color="status.color">
+            {{ status.icon }}
           </v-icon>
         </v-list-item-icon>
       </v-list-item>
@@ -38,12 +38,12 @@
         <v-list-item-title>Mission Type:</v-list-item-title>
 
         <v-list-item-subtitle>
-          {{ missionType.name }}
+          {{ mission.name }}
         </v-list-item-subtitle>
 
         <v-list-item-icon>
-          <v-icon :color="missionType.color">
-            {{ missionType.icon }}
+          <v-icon :color="mission.color">
+            {{ mission.icon }}
           </v-icon>
         </v-list-item-icon>
       </v-list-item>
@@ -101,7 +101,7 @@ export default {
       type: Number,
       required: true
     },
-    status: {
+    statusID: {
       type: Number,
       required: true
     },
@@ -111,8 +111,8 @@ export default {
     }
   },
   computed: {
-    ...mapGetters('launchStatuses', ['launchStatuses']),
-    ...mapGetters('missionTypes', ['missionTypes']),
+    ...mapGetters('launchStatuses', ['launchStatus']),
+    ...mapGetters('missionTypes', ['missionType']),
     binding () {
       const binding = {}
 
@@ -125,15 +125,11 @@ export default {
 
       return binding
     },
-    launchStatus () {
-      return this.launchStatuses.find(type => {
-        return type.id === this.status
-      })
+    status () {
+      return this.launchStatus(this.statusID)
     },
-    missionType () {
-      return this.missionTypes.find(type => {
-        return type.id === this.missions[0].type
-      })
+    mission () {
+      return this.missionType(this.missions[0].type)
     }
   }
 }

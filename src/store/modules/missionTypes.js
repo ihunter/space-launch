@@ -7,6 +7,9 @@ export default {
   getters: {
     missionTypes (state) {
       return state.missionTypes
+    },
+    missionType (state) {
+      return (id) => state.missionTypes.find(m => m.id === id)
     }
   },
   mutations: {

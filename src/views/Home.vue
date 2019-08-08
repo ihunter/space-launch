@@ -12,7 +12,7 @@
                 :lsp="launch.lsp"
                 :locationName="launch.location.name"
                 :netstamp="launch.netstamp"
-                :status="launch.status"
+                :statusID="launch.status"
                 :missions="launch.missions"
               />
             </v-flex>
@@ -39,12 +39,9 @@ export default {
   computed: {
     ...mapGetters('launches', ['launches'])
   },
-  async mounted () {
+  async created () {
     try {
       this.loading = true
-      await this.getAgencies()
-      await this.getMissionTypes()
-      await this.getLaunchesStatuses()
       await this.getLaunches()
     } catch (error) {
       console.error(error)
@@ -53,10 +50,7 @@ export default {
     }
   },
   methods: {
-    ...mapActions('launches', ['getLaunches']),
-    ...mapActions('launchStatuses', ['getLaunchesStatuses']),
-    ...mapActions('missionTypes', ['getMissionTypes']),
-    ...mapActions('agencies', ['getAgencies'])
+    ...mapActions('launches', ['getLaunches'])
   }
 }
 </script>

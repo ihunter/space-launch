@@ -7,6 +7,9 @@ export default {
   getters: {
     launchStatuses (state) {
       return state.launchStatuses
+    },
+    launchStatus (state) {
+      return (id) => state.launchStatuses.find(s => s.id === id)
     }
   },
   mutations: {
