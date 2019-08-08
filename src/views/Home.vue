@@ -2,21 +2,11 @@
   <v-container grid-list-xl>
     <v-layout row justify-center>
       <v-flex shrink>
-        <v-expansion-panels>
-          <v-expansion-panel>
-            <v-expansion-panel-header>Launch Filters</v-expansion-panel-header>
-            <v-expansion-panel-content>
-              <LaunchFilters />
-            </v-expansion-panel-content>
-          </v-expansion-panel>
-        </v-expansion-panels>
-      </v-flex>
-
-      <v-flex shrink>
         <v-container class="mt-5">
           <v-layout column>
             <v-flex v-for="launch in launches" :key="launch.id" class="launch-card-margin">
               <LaunchCard
+                :launchID="launch.id"
                 :name="launch.name"
                 :rocketImageURL="launch.rocket.imageURL"
                 :lsp="launch.lsp"
@@ -29,16 +19,6 @@
           </v-layout>
         </v-container>
       </v-flex>
-
-      <v-flex shrink>
-        <v-card>
-          <v-card-title>I'm a title</v-card-title>
-          <v-card-text>I'm card text</v-card-text>
-          <v-card-actions>
-            <v-btn text>Click</v-btn>
-          </v-card-actions>
-        </v-card>
-      </v-flex>
     </v-layout>
   </v-container>
 </template>
@@ -49,8 +29,7 @@ import { mapGetters, mapActions } from 'vuex'
 export default {
   name: 'Home',
   components: {
-    LaunchCard: () => import('@/components/LaunchCard'),
-    LaunchFilters: () => import('@/components/LaunchFilters')
+    LaunchCard: () => import('@/components/LaunchCard')
   },
   data () {
     return {

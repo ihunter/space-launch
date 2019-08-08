@@ -57,7 +57,7 @@
 
     <v-card-actions>
       <v-spacer></v-spacer>
-      <v-btn text>
+      <v-btn text :to="{ name: 'launch', params: { launchID } }" >
         read more
       </v-btn>
     </v-card-actions>
@@ -77,6 +77,10 @@ export default {
     }
   },
   props: {
+    launchID: {
+      type: Number,
+      required: true
+    },
     name: {
       type: String,
       required: true
