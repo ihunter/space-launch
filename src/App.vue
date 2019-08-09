@@ -3,10 +3,11 @@
   <v-app>
     <v-navigation-drawer
       app
-      clipped
+      disable-resize-watcher
+      temporary
       v-model="drawer"
     >
-      <v-list>
+      <v-list nav>
         <v-list-item :to="{ name: 'home' }" link exact>
           <v-list-item-icon>
             <v-icon>mdi-home</v-icon>
@@ -17,6 +18,8 @@
           </v-list-item-content>
         </v-list-item>
 
+        <v-divider></v-divider>
+
         <v-list-item :to="{ name: 'launches' }" link exact>
           <v-list-item-icon>
             <v-icon>mdi-rocket</v-icon>
@@ -26,10 +29,12 @@
             <v-list-item-title>Launches</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
+
+        <v-divider></v-divider>
       </v-list>
     </v-navigation-drawer>
 
-    <v-app-bar app clipped-left>
+    <v-app-bar app>
       <v-app-bar-nav-icon @click="drawer = !drawer" />
     </v-app-bar>
 
