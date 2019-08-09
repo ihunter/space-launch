@@ -6,7 +6,7 @@
         lazy-src="https://picsum.photos/id/11/10/6"
         gradient="to top right, rgba(100,115,201,.33), rgba(25,32,72,.7)"
         class="grey lighten-2"
-        max-height="80vh"
+        max-height="50vh"
       >
         <v-container fill-height>
           <v-layout column align-center class="image-content text-center" v-if="!loading">
@@ -24,7 +24,7 @@
 
     <v-flex>
       <v-container>
-        <v-layout column>
+        <v-layout column align-center>
           <v-card max-width="825" class="mt-12">
             <v-toolbar height="auto" class="toolbar-top-offset mx-4" :color="status.color" dark>
               <v-layout v-bind="binding" align-center class="nowrap">
@@ -35,9 +35,9 @@
                 </v-flex>
 
                 <v-flex>
-                  <div class="launch-info">
-                    <h3>{{ launch.lsp.name }}</h3>
-                    <p>{{ launch.rocket.name }}</p>
+                  <div class="launch-info text-center">
+                    <h1 class="display-2">{{ launch.lsp.name }}</h1>
+                    <h2 class="headline">{{ launch.rocket.name }}</h2>
                   </div>
                 </v-flex>
               </v-layout>
