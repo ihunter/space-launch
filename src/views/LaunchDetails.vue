@@ -9,7 +9,7 @@
         max-height="80vh"
       >
         <v-container fill-height>
-          <v-layout column align-center class="image-content" v-if="!loading">
+          <v-layout column align-center class="image-content text-center" v-if="!loading">
             <h1 class="display-1">{{ name }}</h1>
             <h2 class="headline">{{ status.description }}</h2>
             <v-spacer></v-spacer>
