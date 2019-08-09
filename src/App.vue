@@ -1,12 +1,36 @@
 <template>
   <!-- App.vue -->
   <v-app>
-    <v-navigation-drawer app clipped v-model="drawer">
-      <!-- -->
+    <v-navigation-drawer
+      app
+      clipped
+      v-model="drawer"
+    >
+      <v-list>
+        <v-list-item :to="{ name: 'home' }" link exact>
+          <v-list-item-icon>
+            <v-icon>mdi-home</v-icon>
+          </v-list-item-icon>
+
+          <v-list-item-content>
+            <v-list-item-title>Home</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+
+        <v-list-item :to="{ name: 'launches' }" link exact>
+          <v-list-item-icon>
+            <v-icon>mdi-rocket</v-icon>
+          </v-list-item-icon>
+
+          <v-list-item-content>
+            <v-list-item-title>Launches</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+      </v-list>
     </v-navigation-drawer>
 
     <v-app-bar app clipped-left>
-      <!-- -->
+      <v-app-bar-nav-icon @click="drawer = !drawer" />
     </v-app-bar>
 
     <!-- Sizes your content based upon application components -->

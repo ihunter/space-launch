@@ -13,9 +13,14 @@ export default new Router({
       component: () => import(/* webpackChunkName: "home" */ '@/views/Home')
     },
     {
+      path: '/launches',
+      name: 'launches',
+      component: () => import(/* webpackChunkName: "launches" */ '@/views/Launches')
+    },
+    {
       path: '/launches/:launchID',
       name: 'launch',
-      component: () => import(/* webpackChunkName: "launches" */ '@/views/LaunchDetails'),
+      component: () => import(/* webpackChunkName: "launch" */ '@/views/LaunchDetails'),
       props (route) {
         const props = { ...route.params }
         props.launchID = +props.launchID

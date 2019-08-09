@@ -49,27 +49,19 @@
               <v-card-text>
                 {{ mission.description }}
               </v-card-text>
+
+              <v-list>
+                <v-list-item>
+                  <v-list-item-title>Mission Type</v-list-item-title>
+
+                  <v-list-item-subtitle>
+                    {{ missionType(mission.type).name }}
+                  </v-list-item-subtitle>
+                </v-list-item>
+              </v-list>
+
+              <v-divider></v-divider>
             </div>
-
-            <v-divider></v-divider>
-
-            <v-list>
-              <v-list-item>
-                <v-list-item-title>Launch Vehicle</v-list-item-title>
-
-                <v-list-item-subtitle>
-                  {{ launch.rocket.name }}
-                </v-list-item-subtitle>
-              </v-list-item>
-
-              <v-list-item>
-                <v-list-item-title>Mission Type</v-list-item-title>
-
-                <v-list-item-subtitle>
-                  {{ launch.missions[0].type }}
-                </v-list-item-subtitle>
-              </v-list-item>
-            </v-list>
           </v-card>
         </v-layout>
       </v-container>
@@ -103,6 +95,7 @@ export default {
   computed: {
     ...mapGetters('launches', ['launch']),
     ...mapGetters('launchStatuses', ['launchStatus']),
+    ...mapGetters('missionTypes', ['missionType']),
     status () {
       return this.launchStatus(this.launch.status)
     },
