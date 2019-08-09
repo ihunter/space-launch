@@ -16,7 +16,7 @@
             <h3 class="display-2">
               {{ countdown }}
             </h3>
-            <h4 class="title">{{ launch.netstamp | date }}</h4>
+            <h4 class="title">{{ launch.isostart | date }}</h4>
           </v-layout>
         </v-container>
       </v-img>
@@ -87,13 +87,13 @@ export default {
   },
   filters: {
     date (date) {
-      return moment.unix(date).format('MMMM Do, YYYY - h:mm A')
+      return moment(date).format('MMMM Do, YYYY - h:mm A')
     }
   },
   data () {
     return {
       loading: true,
-      currentTimestamp: moment().unix()
+      currentTimestamp: moment()
     }
   },
   computed: {
@@ -111,8 +111,10 @@ export default {
       return this.launch.name
     },
     countdown () {
-      const diff = this.launch.netstamp - this.currentTimestamp
-      const duration = moment.duration(diff, 'seconds')
+      const end = moment(this.launch.isostart)
+
+      const diff = end.diff(this.currentTimestamp)
+      const duration = moment.duration(diff)
       let days = Math.floor(duration.asDays()).toString()
       let hours = duration.hours().toString()
       let minutes = duration.minutes().toString()
@@ -152,7 +154,7 @@ export default {
   methods: {
     ...mapActions('launches', ['getLaunch']),
     updateTime () {
-      this.currentTimestamp = moment().unix()
+      this.currentTimestamp = moment()
     }
   }
 }
