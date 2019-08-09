@@ -13,7 +13,9 @@
             <h1 class="display-1">{{ name }}</h1>
             <h2 class="headline">{{ status.description }}</h2>
             <v-spacer></v-spacer>
-            <h3 class="display-2">00 : 00 : 00 : 00</h3>
+            <h3 class="display-2">
+              {{ countdown }}
+            </h3>
             <h4 class="title">{{ launch.netstamp | date }}</h4>
           </v-layout>
         </v-container>
@@ -73,6 +75,7 @@
 import moment from 'moment'
 
 import { mapActions, mapGetters } from 'vuex'
+import { setInterval } from 'timers'
 
 export default {
   name: 'LaunchDetails',
@@ -89,7 +92,8 @@ export default {
   },
   data () {
     return {
-      loading: true
+      loading: true,
+      currentTimestamp: moment().unix()
     }
   },
   computed: {
@@ -105,6 +109,20 @@ export default {
       }
 
       return this.launch.name
+    },
+    countdown () {
+      const diff = this.launch.netstamp - this.currentTimestamp
+      const duration = moment.duration(diff, 'seconds')
+      let days = Math.floor(duration.asDays()).toString()
+      let hours = duration.hours().toString()
+      let minutes = duration.minutes().toString()
+      let seconds = duration.seconds().toString()
+
+      days = days.length < 2 ? `0${days}` : days
+      hours = hours.length < 2 ? `0${hours}` : hours
+      minutes = minutes.length < 2 ? `0${minutes}` : minutes
+      seconds = seconds.length < 2 ? `0${seconds}` : seconds
+      return `${days}:${hours}:${minutes}:${seconds}`
     },
     binding () {
       const binding = {}
@@ -128,9 +146,14 @@ export default {
     } finally {
       this.loading = false
     }
+
+    setInterval(this.updateTime, 500)
   },
   methods: {
-    ...mapActions('launches', ['getLaunch'])
+    ...mapActions('launches', ['getLaunch']),
+    updateTime () {
+      this.currentTimestamp = moment().unix()
+    }
   }
 }
 </script>
