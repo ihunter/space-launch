@@ -9,13 +9,12 @@
         <v-layout column align-center>
           <v-flex>
             <v-card max-width="850">
-              <v-card-title class="display-3">Next upcoming launch</v-card-title>
+              <v-card-title class="display-3 text-center">
+                Next upcoming launch
+              </v-card-title>
               <v-card-text>
                 <NextLaunch />
               </v-card-text>
-              <v-card-actions>
-                <v-btn text>Click</v-btn>
-              </v-card-actions>
             </v-card>
           </v-flex>
         </v-layout>

@@ -1,5 +1,6 @@
 <template>
   <v-img
+    v-if="!loading"
     :src="nextLaunch.rocket.imageURL"
     lazy-src="https://picsum.photos/id/11/10/6"
     gradient="to top right, rgba(100,115,201,.33), rgba(25,32,72,.7)"
