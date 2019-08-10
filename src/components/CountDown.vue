@@ -12,7 +12,7 @@ export default {
   props: {
     endDate: {
       type: String,
-      required: true
+      default: ''
     }
   },
   filters: {
