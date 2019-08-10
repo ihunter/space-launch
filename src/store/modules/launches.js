@@ -11,6 +11,9 @@ export default {
     },
     launch (state) {
       return state.launch
+    },
+    nextLaunch (state) {
+      return state.launches.shift()
     }
   },
   mutations: {

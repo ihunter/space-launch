@@ -14,7 +14,7 @@
             <h2 class="headline">{{ status.description }}</h2>
             <v-spacer></v-spacer>
             <h3 class="display-2">
-              {{ countdown }}
+              <CountDown :endDate="launch.isostart" />
             </h3>
             <h4 class="title">{{ launch.isostart | date }}</h4>
           </v-layout>
@@ -75,10 +75,12 @@
 import moment from 'moment'
 
 import { mapActions, mapGetters } from 'vuex'
-import { setInterval } from 'timers'
 
 export default {
   name: 'LaunchDetails',
+  components: {
+    CountDown: () => import('@/components/CountDown')
+  },
   props: {
     launchID: {
       type: Number,
@@ -92,8 +94,7 @@ export default {
   },
   data () {
     return {
-      loading: true,
-      currentTimestamp: moment()
+      loading: true
     }
   },
   computed: {
@@ -109,22 +110,6 @@ export default {
       }
 
       return this.launch.name
-    },
-    countdown () {
-      const end = moment(this.launch.isostart)
-
-      const diff = end.diff(this.currentTimestamp)
-      const duration = moment.duration(diff)
-      let days = Math.floor(duration.asDays()).toString()
-      let hours = duration.hours().toString()
-      let minutes = duration.minutes().toString()
-      let seconds = duration.seconds().toString()
-
-      days = days.length < 2 ? `0${days}` : days
-      hours = hours.length < 2 ? `0${hours}` : hours
-      minutes = minutes.length < 2 ? `0${minutes}` : minutes
-      seconds = seconds.length < 2 ? `0${seconds}` : seconds
-      return `${days}:${hours}:${minutes}:${seconds}`
     },
     binding () {
       const binding = {}
@@ -148,14 +133,9 @@ export default {
     } finally {
       this.loading = false
     }
-
-    setInterval(this.updateTime, 500)
   },
   methods: {
-    ...mapActions('launches', ['getLaunch']),
-    updateTime () {
-      this.currentTimestamp = moment()
-    }
+    ...mapActions('launches', ['getLaunch'])
   }
 }
 </script>
