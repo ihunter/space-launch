@@ -1,7 +1,13 @@
 <template>
   <v-layout column>
     <v-flex>
-      <v-parallax :src="parallaxImage"></v-parallax>
+      <v-parallax :src="parallaxImage">
+        <v-layout row justify-center align-center class="text-center">
+          <v-flex>
+            <h1 class="website-title display-3 font-weight-black">Space Launch Calendar</h1>
+          </v-flex>
+        </v-layout>
+      </v-parallax>
     </v-flex>
 
     <v-flex class="margin-offset">
@@ -38,6 +44,11 @@ export default {
 </script>
 
 <style scoped>
+.website-title {
+  margin-bottom: 10rem;
+  text-shadow: 5px 5px 10px black;
+}
+
 .margin-offset {
   margin-top: -192px;
 }

@@ -36,6 +36,15 @@
 
     <v-app-bar app>
       <v-app-bar-nav-icon @click="drawer = !drawer" />
+
+      <v-toolbar-title>Space Launch Calendar</v-toolbar-title>
+
+      <v-spacer></v-spacer>
+
+      <v-toolbar-items class="hidden-xs-only">
+        <v-btn text :to="{ name: 'home' }" exact>Home</v-btn>
+        <v-btn text :to="{ name: 'launches' }" exact>Launches</v-btn>
+      </v-toolbar-items>
     </v-app-bar>
 
     <!-- Sizes your content based upon application components -->
