@@ -1,0 +1,25 @@
+[debug] [2019-08-12T07:00:26.989Z] ----------------------------------------------------------------------
+[debug] [2019-08-12T07:00:26.991Z] Command:       C:\Program Files\nodejs\node.exe C:\Users\ijhhu\AppData\Roaming\npm\node_modules\firebase-tools\lib\bin\firebase.js serve
+[debug] [2019-08-12T07:00:26.991Z] CLI Version:   7.2.2
+[debug] [2019-08-12T07:00:26.991Z] Platform:      win32
+[debug] [2019-08-12T07:00:26.991Z] Node Version:  v10.16.0
+[debug] [2019-08-12T07:00:26.992Z] Time:          Mon Aug 12 2019 03:00:26 GMT-0400 (Eastern Daylight Time)
+[debug] [2019-08-12T07:00:26.992Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2019-08-12T07:00:26.999Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2019-08-12T07:00:27.000Z] > authorizing via signed-in user
+[debug] [2019-08-12T07:00:27.000Z] [iam] checking project space-launch-calendar for permissions ["firebase.projects.get"]
+[debug] [2019-08-12T07:00:27.002Z] >>> HTTP REQUEST POST https://cloudresourcemanager.googleapis.com/v1/projects/space-launch-calendar:testIamPermissions  
+
+[debug] [2019-08-12T07:00:27.232Z] <<< HTTP RESPONSE 200
+[debug] [2019-08-12T07:00:27.234Z] >>> HTTP REQUEST GET https://firebase.googleapis.com/v1beta1/projects/space-launch-calendar  
+ 
+[debug] [2019-08-12T07:00:27.465Z] <<< HTTP RESPONSE 200
+[info] 
+[info] === Serving from 'C:\Code\space-launch'...
+[info] 
+[debug] [2019-08-12T07:00:27.476Z] >>> HTTP REQUEST GET https://firebase.googleapis.com/v1beta1/projects/space-launch-calendar/webApps/-/config  
+ 
+[debug] [2019-08-12T07:00:27.734Z] <<< HTTP RESPONSE 200
+[info] i  hosting: Serving hosting files from: dist
+[info] +  hosting: Local server: http://localhost:5000
