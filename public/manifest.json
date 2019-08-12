@@ -1,6 +1,6 @@
 {
   "name": "space-launch",
-  "short_name": "space-launch",
+  "short_name": "Space Launch Calendar",
   "icons": [
     {
       "src": "./img/icons/android-chrome-192x192.png",
