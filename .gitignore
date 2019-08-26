@@ -20,4 +20,4 @@ yarn-error.log*
 *.sln
 *.sw?
 firebase-debug.log
-.firebase/hosting.*.cache
+.firebase
