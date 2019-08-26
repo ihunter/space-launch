@@ -34,7 +34,7 @@
         </v-list-item-icon>
       </v-list-item>
 
-      <v-list-item>
+      <v-list-item v-if="mission">
         <v-list-item-title>Mission Type:</v-list-item-title>
 
         <v-list-item-subtitle>
@@ -49,7 +49,7 @@
       </v-list-item>
     </v-list>
 
-    <v-card-text>
+    <v-card-text v-if="missions[0]">
       {{ missions[0].description }}
     </v-card-text>
 
@@ -107,7 +107,7 @@ export default {
     },
     missions: {
       type: Array,
-      required: true
+      default: () => []
     }
   },
   computed: {
@@ -129,7 +129,8 @@ export default {
       return this.launchStatus(this.statusID)
     },
     mission () {
-      return this.missionType(this.missions[0].type)
+      const missionType = this.missions[0] ? this.missions[0].type : 0
+      return this.missionType(missionType)
     }
   }
 }

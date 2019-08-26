@@ -19,7 +19,7 @@
           <p class="headline">
             {{ nextLaunch.isostart | date }}
           </p>
-          <p class="body-1">
+          <p class="body-1" v-if="nextLaunch.missions.length">
             {{ nextLaunch.missions[0].description }}
           </p>
 
